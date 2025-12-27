@@ -82,7 +82,6 @@
           });
 
           const [probability, setProbability] = useState(0);
-            const [probability, setProbability] = useState(0);
 const [activeScenario, setActiveScenario] = useState('reset');
 
           // Calculate probability based on weighted variables
@@ -156,10 +155,10 @@ const [activeScenario, setActiveScenario] = useState('reset');
           };
 
           // Scenario buttons
-  const applyScenario = (scenario) => {
+const applyScenario = (scenario) => {
   const newVars = { ...variables };
   if (scenario === 'noCoffee') {
-    newVars.coffeeDependency = 0;
+    newVars.coffeeDependency = 35;  // Made peace with giving it up
     setActiveScenario('noCoffee');
   } else if (scenario === 'familySupport') {
     newVars.familyConcern = 10;
