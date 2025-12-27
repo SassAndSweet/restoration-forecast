@@ -82,6 +82,8 @@
           });
 
           const [probability, setProbability] = useState(0);
+            const [probability, setProbability] = useState(0);
+const [activeScenario, setActiveScenario] = useState('reset');
 
           // Calculate probability based on weighted variables
           const calculateProbability = (vars) => {
@@ -154,37 +156,41 @@
           };
 
           // Scenario buttons
-          const applyScenario = (scenario) => {
-            const newVars = { ...variables };
-            if (scenario === 'noCoffee') {
-              newVars.coffeeDependency = 0;
-            } else if (scenario === 'familySupport') {
-              newVars.familyConcern = 10;
-            } else if (scenario === 'graceResolved') {
-              newVars.graceWorksGap = 15;
-            }
-            setVariables(newVars);
-          };
+  const applyScenario = (scenario) => {
+  const newVars = { ...variables };
+  if (scenario === 'noCoffee') {
+    newVars.coffeeDependency = 0;
+    setActiveScenario('noCoffee');
+  } else if (scenario === 'familySupport') {
+    newVars.familyConcern = 10;
+    setActiveScenario('familySupport');
+  } else if (scenario === 'graceResolved') {
+    newVars.graceWorksGap = 15;
+    setActiveScenario('graceResolved');
+  }
+  setVariables(newVars);
+};
 
-          const resetScenario = () => {
-            setVariables({
-              coffeeDependency: 85,
-              graceWorksGap: 60,
-              scriptureComfort: 40,
-              salvationTimeline: 55,
-              familyConcern: 70,
-              lifeEvent: 30,
-              communityProximity: 45,
-              witnessHours: 65,
-              conversationFreq: 75,
-              scriptureProgress: 25,
-              attendedEvent: true,
-              holySpirit: true,
-              teaSessions: 12,
-              memeRate: 8,
-              midnightReading: 3
-            });
-          };
+const resetScenario = () => {
+  setVariables({
+    coffeeDependency: 85,
+    graceWorksGap: 60,
+    scriptureComfort: 40,
+    salvationTimeline: 55,
+    familyConcern: 70,
+    lifeEvent: 30,
+    communityProximity: 45,
+    witnessHours: 65,
+    conversationFreq: 75,
+    scriptureProgress: 25,
+    attendedEvent: true,
+    holySpirit: true,
+    teaSessions: 12,
+    memeRate: 8,
+    midnightReading: 3
+  });
+  setActiveScenario('reset');
+};
 
           return (
             <div style={{
@@ -262,27 +268,43 @@
                   </div>
                 </div>
 
-                {/* Scenario Buttons */}
-                <div style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  marginBottom: '2rem',
-                  flexWrap: 'wrap',
-                  justifyContent: 'center'
-                }}>
-                  <ScenarioButton onClick={() => applyScenario('noCoffee')} color="#8B7355">
-                    What if coffee wasn't a factor?
-                  </ScenarioButton>
-                  <ScenarioButton onClick={() => applyScenario('familySupport')} color="#A0826D">
-                    What if family was fully supportive?
-                  </ScenarioButton>
-                  <ScenarioButton onClick={() => applyScenario('graceResolved')} color="#C9A06E">
-                    Grace/Works Question Internally Resolved
-                  </ScenarioButton>
-                  <ScenarioButton onClick={resetScenario} color="#D4D4D4" textColor="#3E2723">
-                    Reset to Current Reality
-                  </ScenarioButton>
-                </div>
+<div style={{
+  display: 'flex',
+  gap: '0.75rem',
+  marginBottom: '2rem',
+  flexWrap: 'wrap',
+  justifyContent: 'center'
+}}>
+  <ScenarioButton 
+    onClick={() => applyScenario('noCoffee')} 
+    color="#8B7355"
+    isActive={activeScenario === 'noCoffee'}
+  >
+    What if coffee wasn't a factor?
+  </ScenarioButton>
+  <ScenarioButton 
+    onClick={() => applyScenario('familySupport')} 
+    color="#A0826D"
+    isActive={activeScenario === 'familySupport'}
+  >
+    What if family was fully supportive?
+  </ScenarioButton>
+  <ScenarioButton 
+    onClick={() => applyScenario('graceResolved')} 
+    color="#C9A06E"
+    isActive={activeScenario === 'graceResolved'}
+  >
+    Grace/Works Question Internally Resolved
+  </ScenarioButton>
+  <ScenarioButton 
+    onClick={resetScenario} 
+    color="#D4D4D4" 
+    textColor="#3E2723"
+    isActive={activeScenario === 'reset'}
+  >
+    Reset to Current Reality
+  </ScenarioButton>
+</div>
 
                 {/* Variables Grid */}
                 <div style={{
@@ -638,35 +660,43 @@ function Toggle({ label, checked, onChange }) {
   );
 }
 
-        function ScenarioButton({ onClick, color, textColor = 'white', children }) {
-          const [isHovered, setIsHovered] = React.useState(false);
-          const darkerColor = color === '#D4D4D4' ? '#BEBEBE' : 
-                             color === '#8B7355' ? '#6D5940' :
-                             color === '#A0826D' ? '#7D6654' :
-                             '#A58456';
-          
-          return (
-            <button
-              onClick={onClick}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              style={{
-                padding: 'clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)',
-                background: isHovered ? darkerColor : color,
-                color: textColor,
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: 'clamp(0.8rem, 2vw, 0.95rem)',
-                fontWeight: '500',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              {children}
-            </button>
-          );
-        }
+function ScenarioButton({ onClick, color, textColor = 'white', isActive = false, children }) {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [isPressed, setIsPressed] = React.useState(false);
+  
+  const darkerColor = color === '#D4D4D4' ? '#BEBEBE' : 
+                     color === '#8B7355' ? '#6D5940' :
+                     color === '#A0826D' ? '#7D6654' :
+                     '#A58456';
+  
+  return (
+    <button
+      onClick={() => {
+        setIsPressed(true);
+        setTimeout(() => setIsPressed(false), 150);
+        onClick();
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        padding: 'clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)',
+        background: isActive ? darkerColor : (isHovered ? darkerColor : color),
+        color: textColor,
+        border: isActive ? `3px solid ${color === '#D4D4D4' ? '#3E2723' : '#FFF'}` : 'none',
+        borderRadius: '8px',
+        fontSize: 'clamp(0.8rem, 2vw, 0.95rem)',
+        fontWeight: isActive ? '600' : '500',
+        cursor: 'pointer',
+        transition: 'all 0.2s',
+        whiteSpace: 'nowrap',
+        transform: isPressed ? 'scale(0.95)' : 'scale(1)',
+        boxShadow: isActive ? 'inset 0 3px 6px rgba(0,0,0,0.2)' : (isPressed ? 'inset 0 2px 4px rgba(0,0,0,0.15)' : '0 2px 4px rgba(0,0,0,0.1)')
+      }}
+    >
+      {children}
+    </button>
+  );
+}
 
         // Render the app
         const root = ReactDOM.createRoot(document.getElementById('root'));
