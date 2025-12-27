@@ -130,13 +130,13 @@
           }, [variables]);
 
           // Calculate projected timeline
-          const getProjectedDate = () => {
-            if (probability < 20) return "Timeline uncertain - probability too low";
-            if (probability < 40) return "Q4 2027 - Q2 2028";
-            if (probability < 60) return "Q2 2026 - Q4 2026";
-            if (probability < 80) return "Q3 2025 - Q1 2026";
-            return "Q1 2025 - Q2 2025";
-          };
+    const getProjectedDate = () => {
+  if (probability < 20) return "Timeline uncertain - probability too low";
+  if (probability < 40) return "Q2 2028 - Q4 2028";
+  if (probability < 60) return "Q4 2026 - Q2 2027";
+  if (probability < 80) return "Q2 2026 - Q4 2026";
+  return "Q2 2026 - Q3 2026";
+};
 
           // Factor contribution breakdown
           const getFactorBreakdown = () => {
@@ -591,51 +591,52 @@
           );
         }
 
-        function Toggle({ label, checked, onChange }) {
-          return (
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '1rem'
-            }}>
-              <label style={{ 
-                fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
-                color: '#3E2723', 
-                fontWeight: '500',
-                flex: 1
-              }}>
-                {label}
-              </label>
-              <button
-                onClick={() => onChange(!checked)}
-                style={{
-                  width: '50px',
-                  height: '26px',
-                  borderRadius: '13px',
-                  background: checked ? '#C9A06E' : '#D4D4D4',
-                  border: 'none',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s',
-                  flexShrink: 0
-                }}
-              >
-                <div style={{
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  background: 'white',
-                  position: 'absolute',
-                  top: '3px',
-                  left: checked ? '27px' : '3px',
-                  transition: 'left 0.2s',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
-                }} />
-              </button>
-            </div>
-          );
-        }
+function Toggle({ label, checked, onChange }) {
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '1rem'
+    }}>
+      <label style={{ 
+        fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
+        color: '#3E2723', 
+        fontWeight: '500',
+        flex: 1
+      }}>
+        {label}
+      </label>
+      <button
+        onClick={() => onChange(!checked)}
+        style={{
+          width: '50px',
+          height: '26px',
+          borderRadius: '13px',
+          background: checked ? '#C9A06E' : '#E8E8E8',
+          border: checked ? '2px solid #A58456' : '2px solid #BEBEBE',
+          position: 'relative',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          flexShrink: 0,
+          boxShadow: checked ? '0 2px 8px rgba(201, 160, 110, 0.3)' : '0 1px 3px rgba(0,0,0,0.1)'
+        }}
+      >
+        <div style={{
+          width: '18px',
+          height: '18px',
+          borderRadius: '50%',
+          background: checked ? '#FFF' : '#999',
+          position: 'absolute',
+          top: '2px',
+          left: checked ? '26px' : '2px',
+          transition: 'all 0.3s ease',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+        }} />
+      </button>
+    </div>
+  );
+}
 
         function ScenarioButton({ onClick, color, textColor = 'white', children }) {
           const [isHovered, setIsHovered] = React.useState(false);
