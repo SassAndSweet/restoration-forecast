@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rachel's Path to Restoration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Crimson Pro', serif;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function ConversionForecast() {
+          // State for all variables
+          const [variables, setVariables] = useState({
+            // Theological Barriers (0-100, negative weight)
+            coffeeDependency: 85,
+            graceWorksGap: 60,
+            scriptureComfort: 40,
+            salvationTimeline: 55,
+            
+            // Life Factors
+            familyConcern: 70,
+            lifeEvent: 30,
+            communityProximity: 45,
+            
+            // Witness & Engagement (0-100, positive weight)
+            witnessHours: 65,
+            conversationFreq: 75,
+            scriptureProgress: 25,
+            
+            // Key Events (toggles)
+            attendedEvent: true,
+            holySpirit: true,
+            
+            // Playful Metrics
+            teaSessions: 12,
+            memeRate: 8,
+            midnightReading: 3
+          });
+
+          const [probability, setProbability] = useState(0);
+
+          // Calculate probability based on weighted variables
+          const calculateProbability = (vars) => {
+            // Barriers (negative contribution)
+            const barrierScore = (
+              (100 - vars.coffeeDependency) * 0.15 +
+              (100 - vars.graceWorksGap) * 0.12 +
+              vars.scriptureComfort * 0.08 +
+              (100 - vars.salvationTimeline) * 0.10
+            );
+            
+            // Life factors (mixed)
+            const currentProb = probability || 50;
+            const lifeScore = (
+              (100 - vars.familyConcern) * 0.12 +
+              vars.lifeEvent * 0.06 +
+              (100 - vars.communityProximity * (1 - currentProb / 100)) * 0.08
+            );
+            
+            // Witness & engagement (positive)
+            const witnessScore = (
+              vars.witnessHours * 0.15 +
+              vars.conversationFreq * 0.14 +
+              vars.scriptureProgress * 0.10
+            );
+            
+            // Key events (binary boosts)
+            const eventBonus = (
+              (vars.attendedEvent ? 8 : 0) +
+              (vars.holySpirit ? 12 : 0)
+            );
+            
+            // Playful metrics (small positive contributions)
+            const playfulScore = (
+              Math.min(vars.teaSessions / 20, 1) * 3 +
+              Math.min(vars.memeRate / 15, 1) * 2 +
+              Math.min(vars.midnightReading / 10, 1) * 2
+            );
+            
+            const total = barrierScore + lifeScore + witnessScore + eventBonus + playfulScore;
+            return Math.min(Math.max(total, 0), 100);
+          };
+
+          useEffect(() => {
+            setProbability(calculateProbability(variables));
+          }, [variables]);
+
+          // Calculate projected timeline
+          const getProjectedDate = () => {
+            if (probability < 20) return "Timeline uncertain - probability too low";
+            if (probability < 40) return "Q4 2027 - Q2 2028";
+            if (probability < 60) return "Q2 2026 - Q4 2026";
+            if (probability < 80) return "Q3 2025 - Q1 2026";
+            return "Q1 2025 - Q2 2025";
+          };
+
+          // Factor contribution breakdown
+          const getFactorBreakdown = () => {
+            const total = probability || 1;
+            const factors = [
+              { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
+              { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
+              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0)) / total * 100, color: "#C9A06E" },
+              { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
+              { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
+              { name: "Family Concerns", value: -(variables.familyConcern * 0.12 / total * 100), color: "#A0522D" },
+              { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
+            ];
+            return factors.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
+          };
+
+          // Scenario buttons
+          const applyScenario = (scenario) => {
+            const newVars = { ...variables };
+            if (scenario === 'noCoffee') {
+              newVars.coffeeDependency = 0;
+            } else if (scenario === 'familySupport') {
+              newVars.familyConcern = 10;
+            } else if (scenario === 'graceResolved') {
+              newVars.graceWorksGap = 15;
+            }
+            setVariables(newVars);
+          };
+
+          const resetScenario = () => {
+            setVariables({
+              coffeeDependency: 85,
+              graceWorksGap: 60,
+              scriptureComfort: 40,
+              salvationTimeline: 55,
+              familyConcern: 70,
+              lifeEvent: 30,
+              communityProximity: 45,
+              witnessHours: 65,
+              conversationFreq: 75,
+              scriptureProgress: 25,
+              attendedEvent: true,
+              holySpirit: true,
+              teaSessions: 12,
+              memeRate: 8,
+              midnightReading: 3
+            });
+          };
+
+          return (
+            <div style={{
+              minHeight: '100vh',
+              background: 'linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 100%)',
+              fontFamily: "'Crimson Pro', serif",
+              padding: '2rem 1rem'
+            }}>
+              <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                {/* Header */}
+                <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                  <h1 style={{
+                    fontSize: 'clamp(2rem, 5vw, 3rem)',
+                    fontWeight: '600',
+                    color: '#3E2723',
+                    marginBottom: '0.5rem',
+                    letterSpacing: '-0.02em'
+                  }}>
+                    Rachel's Path to Restoration
+                  </h1>
+                  <p style={{
+                    fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+                    color: '#6D4C41',
+                    fontStyle: 'italic'
+                  }}>
+                    A Theological Forecasting Model
+                  </p>
+                  <p style={{
+                    fontSize: 'clamp(0.85rem, 2vw, 0.95rem)',
+                    color: '#8D6E63',
+                    marginTop: '1rem',
+                    maxWidth: '700px',
+                    margin: '1rem auto 0',
+                    padding: '0 1rem'
+                  }}>
+                    A nerdy, deeply affectionate gift exploring the probability of LDS conversion through 
+                    theological barriers, lived witness, and yes... herbal tea sessions.
+                  </p>
+                </header>
+
+                {/* Main Probability Display */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '16px',
+                  padding: 'clamp(1.5rem, 4vw, 3rem)',
+                  marginBottom: '2rem',
+                  boxShadow: '0 4px 20px rgba(62, 39, 35, 0.1)',
+                  textAlign: 'center'
+                }}>
+                  <div style={{
+                    fontSize: 'clamp(0.75rem, 2vw, 1rem)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                    color: '#8D6E63',
+                    marginBottom: '1rem',
+                    fontWeight: '500'
+                  }}>
+                    Current Conversion Probability
+                  </div>
+                  <div style={{
+                    fontSize: 'clamp(3rem, 12vw, 6rem)',
+                    fontWeight: '700',
+                    color: '#8B7355',
+                    lineHeight: '1',
+                    marginBottom: '1rem'
+                  }}>
+                    {probability.toFixed(1)}%
+                  </div>
+                  <div style={{
+                    fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
+                    color: '#6D4C41',
+                    marginTop: '1.5rem'
+                  }}>
+                    <strong>Projected Timeline:</strong> {getProjectedDate()}
+                  </div>
+                </div>
+
+                {/* Scenario Buttons */}
+                <div style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  marginBottom: '2rem',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center'
+                }}>
+                  <ScenarioButton onClick={() => applyScenario('noCoffee')} color="#8B7355">
+                    What if coffee wasn't a factor?
+                  </ScenarioButton>
+                  <ScenarioButton onClick={() => applyScenario('familySupport')} color="#A0826D">
+                    What if family was fully supportive?
+                  </ScenarioButton>
+                  <ScenarioButton onClick={() => applyScenario('graceResolved')} color="#C9A06E">
+                    Grace/Works Question Internally Resolved
+                  </ScenarioButton>
+                  <ScenarioButton onClick={resetScenario} color="#D4D4D4" textColor="#3E2723">
+                    Reset to Current Reality
+                  </ScenarioButton>
+                </div>
+
+                {/* Variables Grid */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                  gap: '1.5rem',
+                  marginBottom: '2rem'
+                }}>
+                  {/* Theological Barriers */}
+                  <Section title="Theological Barriers" color="#8B4513">
+                    <Variable
+                      label="Coffee Dependency Index"
+                      value={variables.coffeeDependency}
+                      onChange={(v) => setVariables({...variables, coffeeDependency: v})}
+                      negative
+                    />
+                    <Variable
+                      label="Grace vs. Works Gap"
+                      value={variables.graceWorksGap}
+                      onChange={(v) => setVariables({...variables, graceWorksGap: v})}
+                      negative
+                    />
+                    <Variable
+                      label="Additional Scripture Comfort Level"
+                      value={variables.scriptureComfort}
+                      onChange={(v) => setVariables({...variables, scriptureComfort: v})}
+                    />
+                    <Variable
+                      label="Salvation Timeline Preference Gap"
+                      value={variables.salvationTimeline}
+                      onChange={(v) => setVariables({...variables, salvationTimeline: v})}
+                      negative
+                    />
+                  </Section>
+
+                  {/* Life Factors */}
+                  <Section title="Life Factors" color="#A0522D">
+                    <Variable
+                      label="Family Reaction Concern"
+                      value={variables.familyConcern}
+                      onChange={(v) => setVariables({...variables, familyConcern: v})}
+                      negative
+                    />
+                    <Variable
+                      label="Personal Life Event That Forces Eternal Considerations"
+                      value={variables.lifeEvent}
+                      onChange={(v) => setVariables({...variables, lifeEvent: v})}
+                    />
+                    <Variable
+                      label="Community Proximity Requirement, Specific Friend Included"
+                      value={variables.communityProximity}
+                      onChange={(v) => setVariables({...variables, communityProximity: v})}
+                      negative
+                    />
+                  </Section>
+
+                  {/* Witness & Engagement */}
+                  <Section title="Witness & Engagement" color="#8B7355">
+                    <Variable
+                      label="Lived Faith Witness Exposure Hours"
+                      value={variables.witnessHours}
+                      onChange={(v) => setVariables({...variables, witnessHours: v})}
+                    />
+                    <Variable
+                      label="Theological Conversation Frequency"
+                      value={variables.conversationFreq}
+                      onChange={(v) => setVariables({...variables, conversationFreq: v})}
+                    />
+                    <Variable
+                      label="Scripture Reading Progress %"
+                      value={variables.scriptureProgress}
+                      onChange={(v) => setVariables({...variables, scriptureProgress: v})}
+                    />
+                  </Section>
+
+                  {/* Key Events */}
+                  <Section title="Key Events" color="#C9A06E">
+                    <Toggle
+                      label="Attended Church Event by Invitation"
+                      checked={variables.attendedEvent}
+                      onChange={(v) => setVariables({...variables, attendedEvent: v})}
+                    />
+                    <Toggle
+                      label="Holy Spirit Instigated Event Factor"
+                      checked={variables.holySpirit}
+                      onChange={(v) => setVariables({...variables, holySpirit: v})}
+                    />
+                  </Section>
+
+                  {/* Playful Metrics */}
+                  <Section title="Playful Metrics" color="#D4AF6A">
+                    <NumericVariable
+                      label="Herbal Tea Sessions per Month"
+                      value={variables.teaSessions}
+                      onChange={(v) => setVariables({...variables, teaSessions: v})}
+                      max={30}
+                    />
+                    <NumericVariable
+                      label="Spiritual Meme Exchange Rate (per week)"
+                      value={variables.memeRate}
+                      onChange={(v) => setVariables({...variables, memeRate: v})}
+                      max={20}
+                    />
+                    <NumericVariable
+                      label="Late-Night Scripture Reading (post-midnight)"
+                      value={variables.midnightReading}
+                      onChange={(v) => setVariables({...variables, midnightReading: v})}
+                      max={15}
+                    />
+                  </Section>
+                </div>
+
+                {/* Factor Breakdown */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '16px',
+                  padding: 'clamp(1.5rem, 3vw, 2rem)',
+                  boxShadow: '0 4px 20px rgba(62, 39, 35, 0.1)'
+                }}>
+                  <h3 style={{
+                    fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
+                    color: '#3E2723',
+                    marginBottom: '1.5rem',
+                    fontWeight: '600'
+                  }}>
+                    What's Driving the Probability?
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {getFactorBreakdown().map((factor, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                        <div style={{ 
+                          flex: '0 0 auto',
+                          minWidth: '200px',
+                          fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
+                          color: '#6D4C41' 
+                        }}>
+                          {factor.name}
+                        </div>
+                        <div style={{ 
+                          flex: 1,
+                          minWidth: '150px',
+                          background: '#F5F1E8', 
+                          borderRadius: '4px', 
+                          height: '24px', 
+                          position: 'relative', 
+                          overflow: 'hidden' 
+                        }}>
+                          <div style={{
+                            width: `${Math.abs(factor.value)}%`,
+                            height: '100%',
+                            background: factor.color,
+                            transition: 'width 0.3s ease'
+                          }} />
+                        </div>
+                        <div style={{ 
+                          flex: '0 0 auto',
+                          width: '60px',
+                          textAlign: 'right', 
+                          fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
+                          fontWeight: '600', 
+                          color: factor.value < 0 ? '#8B4513' : '#8B7355' 
+                        }}>
+                          {factor.value > 0 ? '+' : ''}{factor.value.toFixed(1)}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <footer style={{
+                  marginTop: '3rem',
+                  textAlign: 'center',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
+                  color: '#8D6E63',
+                  fontStyle: 'italic',
+                  padding: '0 1rem'
+                }}>
+                  <p>Dedicated to a close friend who has been patient, thoughtful, and an incredible witness.</p>
+                  <p style={{ marginTop: '0.5rem', fontSize: 'clamp(0.75rem, 1.8vw, 0.85rem)' }}>
+                    "And now, my beloved brethren, I would that ye should come unto Christ..." - 2 Nephi 9:23
+                  </p>
+                </footer>
+              </div>
+            </div>
+          );
+        }
+
+        // Helper Components
+        function Section({ title, color, children }) {
+          return (
+            <div style={{
+              background: 'white',
+              borderRadius: '12px',
+              padding: '1.5rem',
+              boxShadow: '0 2px 10px rgba(62, 39, 35, 0.08)'
+            }}>
+              <h3 style={{
+                fontSize: 'clamp(0.75rem, 2vw, 0.85rem)',
+                fontWeight: '600',
+                color: color,
+                marginBottom: '1.25rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}>
+                {title}
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {children}
+              </div>
+            </div>
+          );
+        }
+
+        function Variable({ label, value, onChange, negative = false }) {
+          return (
+            <div>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '0.5rem',
+                gap: '0.5rem'
+              }}>
+                <label style={{ 
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
+                  color: '#3E2723', 
+                  fontWeight: '500',
+                  flex: 1
+                }}>
+                  {label}
+                </label>
+                <span style={{
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
+                  fontWeight: '600',
+                  color: negative ? '#8B4513' : '#8B7355',
+                  minWidth: '30px',
+                  textAlign: 'right'
+                }}>
+                  {value}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={value}
+                onChange={(e) => onChange(parseInt(e.target.value))}
+                style={{
+                  width: '100%',
+                  height: '6px',
+                  borderRadius: '3px',
+                  background: `linear-gradient(to right, ${negative ? '#CD853F' : '#8B7355'} 0%, ${negative ? '#CD853F' : '#8B7355'} ${value}%, #E8DCC8 ${value}%, #E8DCC8 100%)`,
+                  outline: 'none',
+                  cursor: 'pointer',
+                  color: negative ? '#CD853F' : '#8B7355'
+                }}
+              />
+            </div>
+          );
+        }
+
+        function NumericVariable({ label, value, onChange, max }) {
+          return (
+            <div>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '0.5rem',
+                gap: '0.5rem'
+              }}>
+                <label style={{ 
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
+                  color: '#3E2723', 
+                  fontWeight: '500',
+                  flex: 1
+                }}>
+                  {label}
+                </label>
+                <span style={{
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
+                  fontWeight: '600',
+                  color: '#D4AF6A',
+                  minWidth: '30px',
+                  textAlign: 'right'
+                }}>
+                  {value}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max={max}
+                value={value}
+                onChange={(e) => onChange(parseInt(e.target.value))}
+                style={{
+                  width: '100%',
+                  height: '6px',
+                  borderRadius: '3px',
+                  background: `linear-gradient(to right, #D4AF6A 0%, #D4AF6A ${(value/max)*100}%, #E8DCC8 ${(value/max)*100}%, #E8DCC8 100%)`,
+                  outline: 'none',
+                  cursor: 'pointer',
+                  color: '#D4AF6A'
+                }}
+              />
+            </div>
+          );
+        }
+
+        function Toggle({ label, checked, onChange }) {
+          return (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '1rem'
+            }}>
+              <label style={{ 
+                fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
+                color: '#3E2723', 
+                fontWeight: '500',
+                flex: 1
+              }}>
+                {label}
+              </label>
+              <button
+                onClick={() => onChange(!checked)}
+                style={{
+                  width: '50px',
+                  height: '26px',
+                  borderRadius: '13px',
+                  background: checked ? '#C9A06E' : '#D4D4D4',
+                  border: 'none',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s',
+                  flexShrink: 0
+                }}
+              >
+                <div style={{
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  background: 'white',
+                  position: 'absolute',
+                  top: '3px',
+                  left: checked ? '27px' : '3px',
+                  transition: 'left 0.2s',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+                }} />
+              </button>
+            </div>
+          );
+        }
+
+        function ScenarioButton({ onClick, color, textColor = 'white', children }) {
+          const [isHovered, setIsHovered] = React.useState(false);
+          const darkerColor = color === '#D4D4D4' ? '#BEBEBE' : 
+                             color === '#8B7355' ? '#6D5940' :
+                             color === '#A0826D' ? '#7D6654' :
+                             '#A58456';
+          
+          return (
+            <button
+              onClick={onClick}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              style={{
+                padding: 'clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)',
+                background: isHovered ? darkerColor : color,
+                color: textColor,
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: 'clamp(0.8rem, 2vw, 0.95rem)',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {children}
+            </button>
+          );
+        }
+
+        // Render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ConversionForecast />);
+    </script>
+</body>
+</html>
