@@ -72,9 +72,10 @@
             conversationFreq: 75,
             scriptureProgress: 25,
             
-            // Key Events (toggles)
-            attendedEvent: true,
-            holySpirit: true,
+// Key Events (toggles)
+attendedEvent: true,
+holySpirit: true,
+identityAlignment: false,
             
             // Playful Metrics
             teaSessions: 8,
@@ -111,11 +112,12 @@
               vars.scriptureProgress * 0.10
             );
             
-            // Key events (binary boosts)
-            const eventBonus = (
-              (vars.attendedEvent ? 8 : 0) +
-              (vars.holySpirit ? 12 : 0)
-            );
+// Key events (binary boosts)
+const eventBonus = (
+  (vars.attendedEvent ? 8 : 0) +
+  (vars.holySpirit ? 12 : 0) +
+  (vars.identityAlignment ? 120 : 0)
+);
             
             // Playful metrics (small positive contributions)
             const playfulScore = (
@@ -147,7 +149,7 @@
             const factors = [
               { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
               { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
-              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0)) / total * 100, color: "#C9A06E" },
+{ name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 120 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
               { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
               { name: "Joseph Smith Acceptance", value: -(variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
@@ -186,9 +188,10 @@
               witnessHours: 65,
               conversationFreq: 75,
               scriptureProgress: 25,
-              attendedEvent: true,
-              holySpirit: true,
-              teaSessions: 8,
+ attendedEvent: true,
+holySpirit: true,
+identityAlignment: false,
+teaSessions: 8,
               memeRate: 20,
               midnightReading: 6
             });
