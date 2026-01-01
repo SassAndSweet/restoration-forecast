@@ -390,19 +390,34 @@
                     />
                   </Section>
 
-                  {/* Key Events */}
-                  <Section title="Key Events" color="#C9A06E">
-                    <Toggle
-                      label="Attended Church Event by Invitation"
-                      checked={variables.attendedEvent}
-                      onChange={(v) => setVariables({...variables, attendedEvent: v})}
-                    />
-                    <Toggle
-                      label="Holy Spirit Instigated Event Factor"
-                      checked={variables.holySpirit}
-                      onChange={(v) => setVariables({...variables, holySpirit: v})}
-                    />
-                  </Section>
+<Section title="Key Events" color="#C9A06E">
+  <div>
+    <Toggle
+      label="Core Identity Alignment with Faith Path"
+      checked={variables.identityAlignment}
+      onChange={(v) => setVariables({...variables, identityAlignment: v})}
+    />
+    <div style={{
+      fontSize: '0.75rem',
+      color: '#8D6E63',
+      fontStyle: 'italic',
+      marginTop: '0.25rem',
+      marginLeft: '0.5rem'
+    }}>
+      (PacNW, FSO, Coffee Identity Resolution)
+    </div>
+  </div>
+  <Toggle
+    label="Attended Church Event by Invitation"
+    checked={variables.attendedEvent}
+    onChange={(v) => setVariables({...variables, attendedEvent: v})}
+  />
+  <Toggle
+    label="Holy Spirit Instigated Event Factor"
+    checked={variables.holySpirit}
+    onChange={(v) => setVariables({...variables, holySpirit: v})}
+  />
+</Section>
 
                   {/* Playful Metrics */}
                   <Section title="Playful Metrics" color="#D4AF6A">
