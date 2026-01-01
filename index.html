@@ -53,31 +53,22 @@
         const { useState, useEffect } = React;
 
         function ConversionForecast() {
-          // State for all variables
           const [variables, setVariables] = useState({
-            // Theological Barriers (0-100, negative weight)
             coffeeDependency: 85,
             graceWorksGap: 25,
             josephSmithAcceptance: 75,
             scriptureComfort: 40,
             ordinanceSalvation: 55,
-            
-            // Life Factors
             familyConcern: 70,
             lifeEvent: 30,
-            communityProximity: 45,
-            
-            // Witness & Engagement (0-100, positive weight)
+            communityProximity: 65,
+            journeyReadiness: 45,
             witnessHours: 65,
             conversationFreq: 75,
             scriptureProgress: 25,
-            
-// Key Events (toggles)
-attendedEvent: true,
-holySpirit: true,
-identityAlignment: false,
-            
-            // Playful Metrics
+            attendedEvent: true,
+            holySpirit: true,
+            identityAlignment: false,
             teaSessions: 8,
             memeRate: 20,
             midnightReading: 6
@@ -86,9 +77,7 @@ identityAlignment: false,
           const [probability, setProbability] = useState(0);
           const [activeScenario, setActiveScenario] = useState('reset');
 
-          // Calculate probability based on weighted variables
           const calculateProbability = (vars) => {
-            // Barriers (negative contribution)
             const barrierScore = (
               (100 - vars.coffeeDependency) * 0.15 +
               (100 - vars.graceWorksGap) * 0.12 +
@@ -97,29 +86,25 @@ identityAlignment: false,
               (100 - vars.ordinanceSalvation) * 0.10
             );
             
-            // Life factors (mixed)
-            const currentProb = probability || 50;
             const lifeScore = (
               (100 - vars.familyConcern) * 0.12 +
               vars.lifeEvent * 0.06 +
-              (100 - vars.communityProximity * (1 - currentProb / 100)) * 0.08
+              vars.communityProximity * 0.08 +
+              vars.journeyReadiness * 0.07
             );
             
-            // Witness & engagement (positive)
             const witnessScore = (
               vars.witnessHours * 0.15 +
               vars.conversationFreq * 0.14 +
               vars.scriptureProgress * 0.10
             );
             
-// Key events (binary boosts)
-const eventBonus = (
-  (vars.attendedEvent ? 8 : 0) +
-  (vars.holySpirit ? 12 : 0) +
-  (vars.identityAlignment ? 100 : 0)
-);
+            const eventBonus = (
+              (vars.attendedEvent ? 8 : 0) +
+              (vars.holySpirit ? 12 : 0) +
+              (vars.identityAlignment ? 120 : 0)
+            );
             
-            // Playful metrics (small positive contributions)
             const playfulScore = (
               Math.min(vars.teaSessions / 20, 1) * 3 +
               Math.min(vars.memeRate / 15, 1) * 2 +
@@ -134,7 +119,6 @@ const eventBonus = (
             setProbability(calculateProbability(variables));
           }, [variables]);
 
-          // Calculate projected timeline
           const getProjectedDate = () => {
             if (probability < 20) return "Timeline uncertain - probability too low";
             if (probability < 40) return "Q2 2028 - Q4 2028";
@@ -143,13 +127,12 @@ const eventBonus = (
             return "Q2 2026 - Q3 2026";
           };
 
-          // Factor contribution breakdown
           const getFactorBreakdown = () => {
             const total = probability || 1;
             const factors = [
               { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
               { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
-{ name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 120 : 0)) / total * 100, color: "#C9A06E" },
+              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 120 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
               { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
               { name: "Joseph Smith Acceptance", value: -(variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
@@ -159,7 +142,6 @@ const eventBonus = (
             return factors.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
           };
 
-          // Scenario buttons
           const applyScenario = (scenario) => {
             const newVars = { ...variables };
             if (scenario === 'noCoffee') {
@@ -184,14 +166,15 @@ const eventBonus = (
               ordinanceSalvation: 55,
               familyConcern: 70,
               lifeEvent: 30,
-              communityProximity: 45,
+              communityProximity: 65,
+              journeyReadiness: 45,
               witnessHours: 65,
               conversationFreq: 75,
               scriptureProgress: 25,
- attendedEvent: true,
-holySpirit: true,
-identityAlignment: false,
-teaSessions: 8,
+              attendedEvent: true,
+              holySpirit: true,
+              identityAlignment: false,
+              teaSessions: 8,
               memeRate: 20,
               midnightReading: 6
             });
@@ -206,7 +189,6 @@ teaSessions: 8,
               padding: '2rem 1rem'
             }}>
               <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                {/* Header */}
                 <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
                   <h1 style={{
                     fontSize: 'clamp(2rem, 5vw, 3rem)',
@@ -237,7 +219,6 @@ teaSessions: 8,
                   </p>
                 </header>
 
-                {/* Main Probability Display */}
                 <div style={{
                   background: 'white',
                   borderRadius: '16px',
@@ -274,7 +255,6 @@ teaSessions: 8,
                   </div>
                 </div>
 
-                {/* Scenario Buttons */}
                 <div style={{
                   display: 'flex',
                   gap: '0.75rem',
@@ -313,14 +293,12 @@ teaSessions: 8,
                   </ScenarioButton>
                 </div>
 
-                {/* Variables Grid */}
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                   gap: '1.5rem',
                   marginBottom: '2rem'
                 }}>
-                  {/* Theological Barriers */}
                   <Section title="Theological Barriers" color="#8B4513">
                     <Variable
                       label="Coffee Dependency Index"
@@ -353,7 +331,6 @@ teaSessions: 8,
                     />
                   </Section>
 
-                  {/* Life Factors */}
                   <Section title="Life Factors" color="#A0522D">
                     <Variable
                       label="Family Reaction Concern"
@@ -367,14 +344,17 @@ teaSessions: 8,
                       onChange={(v) => setVariables({...variables, lifeEvent: v})}
                     />
                     <Variable
-                      label="Community Proximity Requirement, Specific Friend Included"
+                      label="Community Integration & Friend Engagement"
                       value={variables.communityProximity}
                       onChange={(v) => setVariables({...variables, communityProximity: v})}
-                      negative
+                    />
+                    <Variable
+                      label="Independent Journey & Timing Readiness"
+                      value={variables.journeyReadiness}
+                      onChange={(v) => setVariables({...variables, journeyReadiness: v})}
                     />
                   </Section>
 
-                  {/* Witness & Engagement */}
                   <Section title="Witness & Engagement" color="#8B7355">
                     <Variable
                       label="Lived Faith Witness Exposure Hours"
@@ -393,36 +373,35 @@ teaSessions: 8,
                     />
                   </Section>
 
-<Section title="Key Events" color="#C9A06E">
-  <div>
-    <Toggle
-      label="Core Identity Alignment with Faith Path"
-      checked={variables.identityAlignment}
-      onChange={(v) => setVariables({...variables, identityAlignment: v})}
-    />
-    <div style={{
-      fontSize: '0.75rem',
-      color: '#8D6E63',
-      fontStyle: 'italic',
-      marginTop: '0.25rem',
-      marginLeft: '0.5rem'
-    }}>
-      (PacNW, FSO, Coffee Identity Resolution)
-    </div>
-  </div>
-  <Toggle
-    label="Attended Church Event by Invitation"
-    checked={variables.attendedEvent}
-    onChange={(v) => setVariables({...variables, attendedEvent: v})}
-  />
-  <Toggle
-    label="Holy Spirit Instigated Event Factor"
-    checked={variables.holySpirit}
-    onChange={(v) => setVariables({...variables, holySpirit: v})}
-  />
-</Section>
+                  <Section title="Key Events" color="#C9A06E">
+                    <div>
+                      <Toggle
+                        label="Core Identity Alignment with Faith Path"
+                        checked={variables.identityAlignment}
+                        onChange={(v) => setVariables({...variables, identityAlignment: v})}
+                      />
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#8D6E63',
+                        fontStyle: 'italic',
+                        marginTop: '0.25rem',
+                        marginLeft: '0.5rem'
+                      }}>
+                        (PacNW, FSO, Coffee Identity Resolution)
+                      </div>
+                    </div>
+                    <Toggle
+                      label="Attended Church Event by Invitation"
+                      checked={variables.attendedEvent}
+                      onChange={(v) => setVariables({...variables, attendedEvent: v})}
+                    />
+                    <Toggle
+                      label="Holy Spirit Instigated Event Factor"
+                      checked={variables.holySpirit}
+                      onChange={(v) => setVariables({...variables, holySpirit: v})}
+                    />
+                  </Section>
 
-                  {/* Playful Metrics */}
                   <Section title="Playful Metrics" color="#D4AF6A">
                     <NumericVariable
                       label="Herbal Tea Sessions per Month"
@@ -445,7 +424,6 @@ teaSessions: 8,
                   </Section>
                 </div>
 
-                {/* Factor Breakdown */}
                 <div style={{
                   background: 'white',
                   borderRadius: '16px',
@@ -502,7 +480,6 @@ teaSessions: 8,
                   </div>
                 </div>
 
-                {/* Footer */}
                 <footer style={{
                   marginTop: '3rem',
                   textAlign: 'center',
@@ -521,7 +498,6 @@ teaSessions: 8,
           );
         }
 
-        // Helper Components
         function Section({ title, color, children }) {
           return (
             <div style={{
@@ -547,188 +523,4 @@ teaSessions: 8,
           );
         }
 
-        function Variable({ label, value, onChange, negative = false }) {
-          return (
-            <div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: '0.5rem',
-                gap: '0.5rem'
-              }}>
-                <label style={{ 
-                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
-                  color: '#3E2723', 
-                  fontWeight: '500',
-                  flex: 1
-                }}>
-                  {label}
-                </label>
-                <span style={{
-                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
-                  fontWeight: '600',
-                  color: negative ? '#8B4513' : '#8B7355',
-                  minWidth: '30px',
-                  textAlign: 'right'
-                }}>
-                  {value}
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={value}
-                onChange={(e) => onChange(parseInt(e.target.value))}
-                style={{
-                  width: '100%',
-                  height: '6px',
-                  borderRadius: '3px',
-                  background: `linear-gradient(to right, ${negative ? '#CD853F' : '#8B7355'} 0%, ${negative ? '#CD853F' : '#8B7355'} ${value}%, #E8DCC8 ${value}%, #E8DCC8 100%)`,
-                  outline: 'none',
-                  cursor: 'pointer',
-                  color: negative ? '#CD853F' : '#8B7355'
-                }}
-              />
-            </div>
-          );
-        }
-
-        function NumericVariable({ label, value, onChange, max }) {
-          return (
-            <div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: '0.5rem',
-                gap: '0.5rem'
-              }}>
-                <label style={{ 
-                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
-                  color: '#3E2723', 
-                  fontWeight: '500',
-                  flex: 1
-                }}>
-                  {label}
-                </label>
-                <span style={{
-                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
-                  fontWeight: '600',
-                  color: '#D4AF6A',
-                  minWidth: '30px',
-                  textAlign: 'right'
-                }}>
-                  {value}
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max={max}
-                value={value}
-                onChange={(e) => onChange(parseInt(e.target.value))}
-                style={{
-                  width: '100%',
-                  height: '6px',
-                  borderRadius: '3px',
-                  background: `linear-gradient(to right, #D4AF6A 0%, #D4AF6A ${(value/max)*100}%, #E8DCC8 ${(value/max)*100}%, #E8DCC8 100%)`,
-                  outline: 'none',
-                  cursor: 'pointer',
-                  color: '#D4AF6A'
-                }}
-              />
-            </div>
-          );
-        }
-
-        function Toggle({ label, checked, onChange }) {
-          return (
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '1rem'
-            }}>
-              <label style={{ 
-                fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
-                color: '#3E2723', 
-                fontWeight: '500',
-                flex: 1
-              }}>
-                {label}
-              </label>
-              <button
-                onClick={() => onChange(!checked)}
-                style={{
-                  width: '50px',
-                  height: '26px',
-                  borderRadius: '13px',
-                  background: checked ? '#C9A06E' : '#E8E8E8',
-                  border: checked ? '2px solid #A58456' : '2px solid #BEBEBE',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  flexShrink: 0,
-                  boxShadow: checked ? '0 2px 8px rgba(201, 160, 110, 0.3)' : '0 1px 3px rgba(0,0,0,0.1)'
-                }}
-              >
-                <div style={{
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
-                  background: checked ? '#FFF' : '#999',
-                  position: 'absolute',
-                  top: '2px',
-                  left: checked ? '26px' : '2px',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                }} />
-              </button>
-            </div>
-          );
-        }
-
-        function ScenarioButton({ onClick, color, textColor = 'white', isActive = false, children }) {
-          const [isHovered, setIsHovered] = React.useState(false);
-          const [isPressed, setIsPressed] = React.useState(false);
-          
-          const darkerColor = color === '#D4D4D4' ? '#BEBEBE' : 
-                             color === '#8B7355' ? '#6D5940' :
-                             color === '#A0826D' ? '#7D6654' :
-                             '#A58456';
-          
-          return (
-            <button
-              onClick={() => {
-                setIsPressed(true);
-                setTimeout(() => setIsPressed(false), 150);
-                onClick();
-              }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              style={{
-                padding: 'clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)',
-                background: isActive ? darkerColor : (isHovered ? darkerColor : color),
-                color: textColor,
-                border: isActive ? `3px solid ${color === '#D4D4D4' ? '#3E2723' : '#FFF'}` : 'none',
-                borderRadius: '8px',
-                fontSize: 'clamp(0.8rem, 2vw, 0.95rem)',
-                fontWeight: isActive ? '600' : '500',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                whiteSpace: 'nowrap',
-                transform: isPressed ? 'scale(0.95)' : 'scale(1)',
-                boxShadow: isActive ? 'inset 0 3px 6px rgba(0,0,0,0.2)' : (isPressed ? 'inset 0 2px 4px rgba(0,0,0,0.15)' : '0 2px 4px rgba(0,0,0,0.1)')
-              }}
-            >
-              {children}
-            </button>
-          );
-        }
-
-        // Render the app
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<ConversionForecast />);
-    </script>
-</body>
-</html>
+        function Variable(
