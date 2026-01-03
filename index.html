@@ -57,8 +57,8 @@
             coffeeDependency: 85,
             graceWorksGap: 25,
             josephSmithAcceptance: 10,
-            scriptureComfort: 40,
-            ordinanceSalvation: 55,
+            scriptureComfort: 20,
+            ordinanceSalvation: 25,
             familyConcernAlleviated: 20,
             lifeStability: 50,
             catalystNeedsChrist: 40,
@@ -86,7 +86,7 @@
               (100 - vars.graceWorksGap) * 0.12 +
               vars.josephSmithAcceptance * 0.15 +
               vars.scriptureComfort * 0.08 +
-              (100 - vars.ordinanceSalvation) * 0.10
+              vars.ordinanceSalvation * 0.10
             );
             
             const lifeScore = (
@@ -140,11 +140,12 @@
               { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
               { name: "Hours Spent Mulling", value: (variables.hoursSpentMulling * 0.12 / total * 100), color: "#8B7355" },
               { name: "Family Concerns Alleviated", value: (variables.familyConcernAlleviated * 0.12 / total * 100), color: "#A0522D" },
+              { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
+              { name: "Ordinance-Based Salvation Acceptance", value: (variables.ordinanceSalvation * 0.10 / total * 100), color: "#8B4513" },
               { name: "Life Stability & Rootedness", value: (variables.lifeStability * 0.07 / total * 100), color: "#A0522D" },
               { name: "Catalyst Needs Christ's Anchoring", value: (variables.catalystNeedsChrist * 0.07 / total * 100), color: "#A0522D" },
               { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
-              { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
               { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
               { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
             ];
@@ -171,8 +172,8 @@
               coffeeDependency: 85,
               graceWorksGap: 25,
               josephSmithAcceptance: 10,
-              scriptureComfort: 40,
-              ordinanceSalvation: 55,
+              scriptureComfort: 20,
+              ordinanceSalvation: 25,
               familyConcernAlleviated: 20,
               lifeStability: 50,
               catalystNeedsChrist: 40,
@@ -338,7 +339,6 @@
                       label="Acceptance of Ordinance-Based Salvation"
                       value={variables.ordinanceSalvation}
                       onChange={(v) => setVariables({...variables, ordinanceSalvation: v})}
-                      negative
                     />
                   </Section>
 
