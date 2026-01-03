@@ -60,6 +60,8 @@
             scriptureComfort: 40,
             ordinanceSalvation: 55,
             familyConcernAlleviated: 20,
+            lifeStability: 50,
+            catalystNeedsChrist: 40,
             celestialConsiderations: false,
             communityProximity: 65,
             journeyReadiness: 45,
@@ -89,6 +91,8 @@
             
             const lifeScore = (
               vars.familyConcernAlleviated * 0.12 +
+              vars.lifeStability * 0.07 +
+              vars.catalystNeedsChrist * 0.07 +
               vars.communityProximity * 0.08 +
               vars.journeyReadiness * 0.07
             );
@@ -136,6 +140,8 @@
               { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
               { name: "Hours Spent Mulling", value: (variables.hoursSpentMulling * 0.12 / total * 100), color: "#8B7355" },
               { name: "Family Concerns Alleviated", value: (variables.familyConcernAlleviated * 0.12 / total * 100), color: "#A0522D" },
+              { name: "Life Stability & Rootedness", value: (variables.lifeStability * 0.07 / total * 100), color: "#A0522D" },
+              { name: "Catalyst Needs Christ's Anchoring", value: (variables.catalystNeedsChrist * 0.07 / total * 100), color: "#A0522D" },
               { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
               { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
@@ -168,6 +174,8 @@
               scriptureComfort: 40,
               ordinanceSalvation: 55,
               familyConcernAlleviated: 20,
+              lifeStability: 50,
+              catalystNeedsChrist: 40,
               celestialConsiderations: false,
               communityProximity: 65,
               journeyReadiness: 45,
@@ -339,6 +347,16 @@
                       label="Family Reaction Concerns Alleviated"
                       value={variables.familyConcernAlleviated}
                       onChange={(v) => setVariables({...variables, familyConcernAlleviated: v})}
+                    />
+                    <Variable
+                      label="Life Stability & Rootedness"
+                      value={variables.lifeStability}
+                      onChange={(v) => setVariables({...variables, lifeStability: v})}
+                    />
+                    <Variable
+                      label="Catalyst Needs Christ's Anchoring"
+                      value={variables.catalystNeedsChrist}
+                      onChange={(v) => setVariables({...variables, catalystNeedsChrist: v})}
                     />
                     <Variable
                       label="Community Integration & Friend Engagement"
