@@ -63,9 +63,10 @@
             lifeEvent: 30,
             communityProximity: 65,
             journeyReadiness: 45,
-            witnessHours: 65,
-            conversationFreq: 75,
-            scriptureProgress: 25,
+            witnessHours: 75,
+            conversationFreq: 50,
+            scriptureProgress: 10,
+            hoursSpentMulling: 25,
             attendedEvent: true,
             holySpirit: true,
             identityAlignment: false,
@@ -96,7 +97,8 @@
             const witnessScore = (
               vars.witnessHours * 0.15 +
               vars.conversationFreq * 0.14 +
-              vars.scriptureProgress * 0.10
+              vars.scriptureProgress * 0.10 +
+              vars.hoursSpentMulling * 0.12
             );
             
             const eventBonus = (
@@ -132,6 +134,7 @@
             const factors = [
               { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
               { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
+              { name: "Hours Spent Mulling", value: (variables.hoursSpentMulling * 0.12 / total * 100), color: "#8B7355" },
               { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 120 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
               { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
@@ -168,9 +171,10 @@
               lifeEvent: 30,
               communityProximity: 65,
               journeyReadiness: 45,
-              witnessHours: 65,
-              conversationFreq: 75,
-              scriptureProgress: 25,
+              witnessHours: 75,
+              conversationFreq: 50,
+              scriptureProgress: 10,
+              hoursSpentMulling: 25,
               attendedEvent: true,
               holySpirit: true,
               identityAlignment: false,
@@ -369,6 +373,11 @@
                       label="Scripture Reading Progress %"
                       value={variables.scriptureProgress}
                       onChange={(v) => setVariables({...variables, scriptureProgress: v})}
+                    />
+                    <Variable
+                      label="Hours Spent Mulling"
+                      value={variables.hoursSpentMulling}
+                      onChange={(v) => setVariables({...variables, hoursSpentMulling: v})}
                     />
                   </Section>
 
