@@ -59,8 +59,8 @@
             josephSmithAcceptance: 10,
             scriptureComfort: 40,
             ordinanceSalvation: 55,
-            familyConcern: 70,
-            lifeEvent: 30,
+            familyConcernAlleviated: 20,
+            celestialConsiderations: false,
             communityProximity: 65,
             journeyReadiness: 45,
             witnessHours: 75,
@@ -88,8 +88,7 @@
             );
             
             const lifeScore = (
-              (100 - vars.familyConcern) * 0.12 +
-              vars.lifeEvent * 0.06 +
+              vars.familyConcernAlleviated * 0.12 +
               vars.communityProximity * 0.08 +
               vars.journeyReadiness * 0.07
             );
@@ -104,7 +103,8 @@
             const eventBonus = (
               (vars.attendedEvent ? 8 : 0) +
               (vars.holySpirit ? 12 : 0) +
-              (vars.identityAlignment ? 120 : 0)
+              (vars.identityAlignment ? 10 : 0) +
+              (vars.celestialConsiderations ? 10 : 0)
             );
             
             const playfulScore = (
@@ -135,11 +135,11 @@
               { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
               { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
               { name: "Hours Spent Mulling", value: (variables.hoursSpentMulling * 0.12 / total * 100), color: "#8B7355" },
-              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 120 : 0)) / total * 100, color: "#C9A06E" },
+              { name: "Family Concerns Alleviated", value: (variables.familyConcernAlleviated * 0.12 / total * 100), color: "#A0522D" },
+              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
               { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
               { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
-              { name: "Family Concerns", value: -(variables.familyConcern * 0.12 / total * 100), color: "#A0522D" },
               { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
             ];
             return factors.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
@@ -151,7 +151,7 @@
               newVars.coffeeDependency = 35;
               setActiveScenario('noCoffee');
             } else if (scenario === 'familySupport') {
-              newVars.familyConcern = 10;
+              newVars.familyConcernAlleviated = 90;
               setActiveScenario('familySupport');
             } else if (scenario === 'graceResolved') {
               newVars.graceWorksGap = 15;
@@ -167,8 +167,8 @@
               josephSmithAcceptance: 10,
               scriptureComfort: 40,
               ordinanceSalvation: 55,
-              familyConcern: 70,
-              lifeEvent: 30,
+              familyConcernAlleviated: 20,
+              celestialConsiderations: false,
               communityProximity: 65,
               journeyReadiness: 45,
               witnessHours: 75,
@@ -336,15 +336,9 @@
 
                   <Section title="Life Factors" color="#A0522D">
                     <Variable
-                      label="Family Reaction Concern"
-                      value={variables.familyConcern}
-                      onChange={(v) => setVariables({...variables, familyConcern: v})}
-                      negative
-                    />
-                    <Variable
-                      label="Personal Life Event That Forces Eternal Considerations"
-                      value={variables.lifeEvent}
-                      onChange={(v) => setVariables({...variables, lifeEvent: v})}
+                      label="Family Reaction Concerns Alleviated"
+                      value={variables.familyConcernAlleviated}
+                      onChange={(v) => setVariables({...variables, familyConcernAlleviated: v})}
                     />
                     <Variable
                       label="Community Integration & Friend Engagement"
@@ -396,6 +390,22 @@
                         marginLeft: '0.5rem'
                       }}>
                         (PacNW, FSO, Coffee Identity Resolution)
+                      </div>
+                    </div>
+                    <div>
+                      <Toggle
+                        label="Celestial Considerations"
+                        checked={variables.celestialConsiderations}
+                        onChange={(v) => setVariables({...variables, celestialConsiderations: v})}
+                      />
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#8D6E63',
+                        fontStyle: 'italic',
+                        marginTop: '0.25rem',
+                        marginLeft: '0.5rem'
+                      }}>
+                        (LDS spouse, children, eternal family bonds)
                       </div>
                     </div>
                     <Toggle
