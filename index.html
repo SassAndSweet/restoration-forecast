@@ -79,6 +79,33 @@
 
           const [probability, setProbability] = useState(0);
           const [activeScenario, setActiveScenario] = useState('reset');
+          const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+          // Countdown timer effect
+          useEffect(() => {
+            const targetDate = new Date('2026-09-27T12:00:00-04:00'); // September 27, 2026 at 12:00 PM EST
+            
+            const updateCountdown = () => {
+              const now = new Date();
+              const difference = targetDate - now;
+              
+              if (difference > 0) {
+                setTimeRemaining({
+                  days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                  hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                  minutes: Math.floor((difference / 1000 / 60) % 60),
+                  seconds: Math.floor((difference / 1000) % 60)
+                });
+              } else {
+                setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+              }
+            };
+            
+            updateCountdown();
+            const timer = setInterval(updateCountdown, 1000);
+            
+            return () => clearInterval(timer);
+          }, []);
 
           const calculateProbability = (vars) => {
             const barrierScore = (
@@ -262,9 +289,43 @@
                   <div style={{
                     fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
                     color: '#6D4C41',
-                    marginTop: '1.5rem'
+                    marginTop: '1.5rem',
+                    marginBottom: '2rem'
                   }}>
                     <strong>Projected Timeline:</strong> {getProjectedDate()}
+                  </div>
+
+                  {/* Countdown Timer */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, #3E2723 0%, #2C1B16 100%)',
+                    borderRadius: '12px',
+                    padding: 'clamp(1.5rem, 3vw, 2rem)',
+                    marginTop: '2rem'
+                  }}>
+                    <div style={{
+                      fontSize: 'clamp(0.7rem, 1.8vw, 0.85rem)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.15em',
+                      color: '#C9A06E',
+                      marginBottom: '1rem',
+                      fontWeight: '500'
+                    }}>
+                      Restoration Event Horizon Projection Timeline
+                    </div>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      gap: 'clamp(0.5rem, 2vw, 1.5rem)',
+                      flexWrap: 'wrap'
+                    }}>
+                      <TimeUnit value={timeRemaining.days} label="DAYS" />
+                      <TimeSeparator />
+                      <TimeUnit value={timeRemaining.hours} label="HOURS" />
+                      <TimeSeparator />
+                      <TimeUnit value={timeRemaining.minutes} label="MINUTES" />
+                      <TimeSeparator />
+                      <TimeUnit value={timeRemaining.seconds} label="SECONDS" />
+                    </div>
                   </div>
                 </div>
 
@@ -534,6 +595,64 @@
                   </p>
                 </footer>
               </div>
+            </div>
+          );
+        }
+
+        function TimeUnit({ value, label }) {
+          return (
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              minWidth: 'clamp(60px, 15vw, 90px)'
+            }}>
+              <div style={{
+                background: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '8px',
+                padding: 'clamp(0.5rem, 2vw, 1rem)',
+                minWidth: 'clamp(60px, 15vw, 90px)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <span style={{
+                  fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                  fontWeight: '700',
+                  color: '#FFFFFF',
+                  fontVariantNumeric: 'tabular-nums',
+                  lineHeight: '1'
+                }}>
+                  {String(value).padStart(2, '0')}
+                </span>
+              </div>
+              <div style={{
+                fontSize: 'clamp(0.65rem, 1.5vw, 0.75rem)',
+                color: '#C9A06E',
+                marginTop: '0.5rem',
+                fontWeight: '600',
+                letterSpacing: '0.1em'
+              }}>
+                {label}
+              </div>
+            </div>
+          );
+        }
+
+        function TimeSeparator() {
+          return (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              paddingBottom: '1.5rem'
+            }}>
+              <span style={{
+                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+                color: '#C9A06E',
+                fontWeight: '700'
+              }}>
+                :
+              </span>
             </div>
           );
         }
