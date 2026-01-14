@@ -52,60 +52,43 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+        // BASELINE DATE - Change this to adjust the default target date
+        const BASELINE_DATE = new Date('2026-09-27T12:00:00-04:00');
+
         function ConversionForecast() {
           const [variables, setVariables] = useState({
             coffeeDependency: 70,
-            graceWorksGap: 25,
+            graceWorksGap: 15, // Default ON (resolved)
             josephSmithAcceptance: 10,
             scriptureComfort: 20,
             ordinanceSalvation: 25,
             familyConcernAlleviated: 20,
             lifeStability: 50,
             catalystNeedsChrist: 50,
-            celestialConsiderations: false,
+            celestialConsiderations: false, // Default OFF
             communityProximity: 70,
             journeyReadiness: 45,
             witnessHours: 75,
             conversationFreq: 50,
             scriptureProgress: 10,
             hoursSpentMulling: 25,
-            attendedEvent: true,
-            holySpirit: true,
-            identityAlignment: false,
+            attendedEvent: true, // Default ON
+            holySpirit: false, // Default OFF
+            identityAlignment: false, // Default OFF
             teaSessions: 8,
             memeRate: 20,
             midnightReading: 6
           });
 
           const [probability, setProbability] = useState(0);
-          const [activeScenario, setActiveScenario] = useState('reset');
+          const [activeScenario, setActiveScenario] = useState('');
           const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+          const [projectedDate, setProjectedDate] = useState(BASELINE_DATE);
 
-          // Countdown timer effect
-          useEffect(() => {
-            const targetDate = new Date('2026-09-27T12:00:00-04:00'); // September 27, 2026 at 12:00 PM EST
-            
-            const updateCountdown = () => {
-              const now = new Date();
-              const difference = targetDate - now;
-              
-              if (difference > 0) {
-                setTimeRemaining({
-                  days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                  hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                  minutes: Math.floor((difference / 1000 / 60) % 60),
-                  seconds: Math.floor((difference / 1000) % 60)
-                });
-              } else {
-                setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-              }
-            };
-            
-            updateCountdown();
-            const timer = setInterval(updateCountdown, 1000);
-            
-            return () => clearInterval(timer);
-          }, []);
+          // Scenario states (separate from variable toggles)
+          const [scenarioCoffee, setScenarioCoffee] = useState(false);
+          const [scenarioFamily, setscenarioFamily] = useState(false);
+          const [scenarioGrace, setscenarioGrace] = useState(true); // Default ON
 
           const calculateProbability = (vars) => {
             const barrierScore = (
@@ -132,8 +115,8 @@
             );
             
             const eventBonus = (
-              (vars.attendedEvent ? 8 : 0) +
-              (vars.holySpirit ? 12 : 0) +
+              (vars.attendedEvent ? 15 : 0) + // Updated to 15%
+              (vars.holySpirit ? 10 : 0) + // Updated to 10%
               (vars.identityAlignment ? 10 : 0) +
               (vars.celestialConsiderations ? 10 : 0)
             );
@@ -148,11 +131,72 @@
             return Math.min(Math.max(total, 0), 100);
           };
 
+          const calculateProjectedDate = (vars) => {
+            let timelineAdjustment = 0;
+
+            // Toggle-based adjustments
+            if (vars.celestialConsiderations) timelineAdjustment -= 10;
+            if (vars.identityAlignment) timelineAdjustment -= 10;
+            if (vars.holySpirit) timelineAdjustment -= 15;
+            if (!vars.attendedEvent) timelineAdjustment += 25; // When OFF, pushes out
+
+            // Scenario button adjustments (using scenario states)
+            if (!scenarioGrace) timelineAdjustment += 5; // When OFF, pushes out
+            if (scenarioFamily) timelineAdjustment -= 8;
+            if (scenarioCoffee) timelineAdjustment -= 15;
+
+            // Calculate days between now and baseline
+            const now = new Date();
+            const daysToBaseline = Math.floor((BASELINE_DATE - now) / (1000 * 60 * 60 * 24));
+            
+            // Apply percentage adjustment
+            const adjustedDays = Math.round(daysToBaseline * (1 + timelineAdjustment / 100));
+            
+            // Calculate new projected date
+            const newDate = new Date(now);
+            newDate.setDate(newDate.getDate() + adjustedDays);
+            
+            return newDate;
+          };
+
           useEffect(() => {
-            setProbability(calculateProbability(variables));
-          }, [variables]);
+            const newProb = calculateProbability(variables);
+            setProbability(newProb);
+            
+            const newDate = calculateProjectedDate(variables);
+            setProjectedDate(newDate);
+          }, [variables, scenarioCoffee, scenarioFamily, scenarioGrace]);
+
+          // Countdown timer effect
+          useEffect(() => {
+            const updateCountdown = () => {
+              const now = new Date();
+              const difference = projectedDate - now;
+              
+              if (difference > 0) {
+                setTimeRemaining({
+                  days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                  hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                  minutes: Math.floor((difference / 1000 / 60) % 60),
+                  seconds: Math.floor((difference / 1000) % 60)
+                });
+              } else {
+                setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+              }
+            };
+            
+            updateCountdown();
+            const timer = setInterval(updateCountdown, 1000);
+            
+            return () => clearInterval(timer);
+          }, [projectedDate]);
 
           const getProjectedDate = () => {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return projectedDate.toLocaleDateString('en-US', options);
+          };
+
+          const getProjectedDateRange = () => {
             if (probability < 20) return "Timeline uncertain - probability too low";
             if (probability < 40) return "Q2 2028 - Q4 2028";
             if (probability < 60) return "Q4 2026 - Q2 2027";
@@ -171,7 +215,7 @@
               { name: "Ordinance-Based Salvation Acceptance", value: (variables.ordinanceSalvation * 0.10 / total * 100), color: "#8B4513" },
               { name: "Life Stability & Rootedness", value: (variables.lifeStability * 0.07 / total * 100), color: "#A0522D" },
               { name: "Catalyst Needs Christ's Anchoring", value: (variables.catalystNeedsChrist * 0.07 / total * 100), color: "#A0522D" },
-              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 8 : 0) + (variables.holySpirit ? 12 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
+              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 15 : 0) + (variables.holySpirit ? 10 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
               { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
               { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
               { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
@@ -179,25 +223,31 @@
             return factors.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
           };
 
-          const applyScenario = (scenario) => {
-            const newVars = { ...variables };
-            if (scenario === 'noCoffee') {
-              newVars.coffeeDependency = 35;
-              setActiveScenario('noCoffee');
-            } else if (scenario === 'familySupport') {
-              newVars.familyConcernAlleviated = 90;
-              setActiveScenario('familySupport');
-            } else if (scenario === 'graceResolved') {
-              newVars.graceWorksGap = 15;
-              setActiveScenario('graceResolved');
-            }
-            setVariables(newVars);
+          const toggleCoffeeScenario = () => {
+            const newState = !scenarioCoffee;
+            setScenarioCoffee(newState);
+            setVariables({...variables, coffeeDependency: newState ? 35 : 70});
+          };
+
+          const toggleFamilyScenario = () => {
+            const newState = !scenarioFamily;
+            setscenarioFamily(newState);
+            setVariables({...variables, familyConcernAlleviated: newState ? 90 : 20});
+          };
+
+          const toggleGraceScenario = () => {
+            const newState = !scenarioGrace;
+            setscenarioGrace(newState);
+            setVariables({...variables, graceWorksGap: newState ? 15 : 25});
           };
 
           const resetScenario = () => {
+            setScenarioCoffee(false);
+            setscenarioFamily(false);
+            setscenarioGrace(true);
             setVariables({
               coffeeDependency: 70,
-              graceWorksGap: 25,
+              graceWorksGap: 15,
               josephSmithAcceptance: 10,
               scriptureComfort: 20,
               ordinanceSalvation: 25,
@@ -212,7 +262,7 @@
               scriptureProgress: 10,
               hoursSpentMulling: 25,
               attendedEvent: true,
-              holySpirit: true,
+              holySpirit: false,
               identityAlignment: false,
               teaSessions: 8,
               memeRate: 20,
@@ -292,7 +342,7 @@
                     marginTop: '1.5rem',
                     marginBottom: '2rem'
                   }}>
-                    <strong>Projected Timeline:</strong> {getProjectedDate()}
+                    <strong>Projected Timeline:</strong> {getProjectedDateRange()}
                   </div>
 
                   {/* Countdown Timer */}
@@ -337,23 +387,23 @@
                   justifyContent: 'center'
                 }}>
                   <ScenarioButton 
-                    onClick={() => applyScenario('noCoffee')} 
+                    onClick={toggleCoffeeScenario} 
                     color="#8B7355"
-                    isActive={activeScenario === 'noCoffee'}
+                    isActive={scenarioCoffee}
                   >
                     What if coffee wasn't a factor?
                   </ScenarioButton>
                   <ScenarioButton 
-                    onClick={() => applyScenario('familySupport')} 
+                    onClick={toggleFamilyScenario} 
                     color="#A0826D"
-                    isActive={activeScenario === 'familySupport'}
+                    isActive={scenarioFamily}
                   >
                     What if family was fully supportive?
                   </ScenarioButton>
                   <ScenarioButton 
-                    onClick={() => applyScenario('graceResolved')} 
+                    onClick={toggleGraceScenario} 
                     color="#C9A06E"
-                    isActive={activeScenario === 'graceResolved'}
+                    isActive={scenarioGrace}
                   >
                     Grace/Works Question Internally Resolved
                   </ScenarioButton>
@@ -488,12 +538,12 @@
                       </div>
                     </div>
                     <Toggle
-                      label="Attended Church Event by Invitation"
+                      label="Additional Church Attendance by Explicit Invitation"
                       checked={variables.attendedEvent}
                       onChange={(v) => setVariables({...variables, attendedEvent: v})}
                     />
                     <Toggle
-                      label="Holy Spirit Instigated Event Factor"
+                      label="Holy Spirit Prompted Revelation"
                       checked={variables.holySpirit}
                       onChange={(v) => setVariables({...variables, holySpirit: v})}
                     />
@@ -825,35 +875,40 @@
 
         function ScenarioButton({ onClick, color, textColor = 'white', isActive = false, children }) {
           const [isHovered, setIsHovered] = React.useState(false);
-          const [isPressed, setIsPressed] = React.useState(false);
           
-          const darkerColor = color === '#D4D4D4' ? '#BEBEBE' : 
+          const activeColor = color === '#D4D4D4' ? '#3E2723' : 
                              color === '#8B7355' ? '#6D5940' :
                              color === '#A0826D' ? '#7D6654' :
-                             '#A58456';
+                             color === '#C9A06E' ? '#A58456' :
+                             '#6D5940';
+          
+          const hoverColor = color === '#D4D4D4' ? '#C0C0C0' : 
+                            color === '#8B7355' ? '#7D6654' :
+                            color === '#A0826D' ? '#8B7355' :
+                            color === '#C9A06E' ? '#B8956A' :
+                            '#8B7355';
           
           return (
             <button
-              onClick={() => {
-                setIsPressed(true);
-                setTimeout(() => setIsPressed(false), 150);
-                onClick();
-              }}
+              onClick={onClick}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               style={{
                 padding: 'clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)',
-                background: isActive ? darkerColor : (isHovered ? darkerColor : color),
-                color: textColor,
-                border: isActive ? `3px solid ${color === '#D4D4D4' ? '#3E2723' : '#FFF'}` : 'none',
+                background: isActive ? activeColor : (isHovered ? hoverColor : color),
+                color: isActive ? 'white' : textColor,
+                border: isActive ? `4px solid ${color}` : '2px solid transparent',
                 borderRadius: '8px',
                 fontSize: 'clamp(0.8rem, 2vw, 0.95rem)',
-                fontWeight: isActive ? '600' : '500',
+                fontWeight: isActive ? '700' : '500',
                 cursor: 'pointer',
-                transition: 'all 0.2s',
+                transition: 'all 0.25s ease',
                 whiteSpace: 'nowrap',
-                transform: isPressed ? 'scale(0.95)' : 'scale(1)',
-                boxShadow: isActive ? 'inset 0 3px 6px rgba(0,0,0,0.2)' : (isPressed ? 'inset 0 2px 4px rgba(0,0,0,0.15)' : '0 2px 4px rgba(0,0,0,0.1)')
+                boxShadow: isActive 
+                  ? `0 0 0 2px white, 0 0 0 4px ${color}, 0 4px 12px rgba(0,0,0,0.2)` 
+                  : (isHovered ? '0 3px 8px rgba(0,0,0,0.15)' : '0 2px 4px rgba(0,0,0,0.1)'),
+                transform: isActive ? 'translateY(-2px) scale(1.02)' : 'none',
+                letterSpacing: isActive ? '0.03em' : 'normal'
               }}
             >
               {children}
