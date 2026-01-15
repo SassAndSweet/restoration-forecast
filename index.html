@@ -70,7 +70,7 @@
             journeyReadiness: 45,
             witnessHours: 75,
             conversationFreq: 50,
-            scriptureProgress: 10,
+            scriptureProgress: 15, // Updated from 10 to 15
             hoursSpentMulling: 25,
             attendedEvent: true, // Default ON
             holySpirit: false, // Default OFF
@@ -144,6 +144,43 @@
             if (!scenarioGrace) timelineAdjustment += 5; // When OFF, pushes out
             if (scenarioFamily) timelineAdjustment -= 8;
             if (scenarioCoffee) timelineAdjustment -= 15;
+
+            // SLIDER-BASED ADJUSTMENTS (1% per point from default)
+            // Default values for reference
+            const defaults = {
+              coffeeDependency: 70,
+              graceWorksGap: 15,
+              josephSmithAcceptance: 10,
+              scriptureComfort: 20,
+              ordinanceSalvation: 25,
+              familyConcernAlleviated: 20,
+              lifeStability: 50,
+              catalystNeedsChrist: 50,
+              communityProximity: 70,
+              journeyReadiness: 45,
+              witnessHours: 75,
+              conversationFreq: 50,
+              scriptureProgress: 15,
+              hoursSpentMulling: 25
+            };
+
+            // Positive sliders (higher value = closer date = negative adjustment)
+            timelineAdjustment -= (vars.josephSmithAcceptance - defaults.josephSmithAcceptance) * 1;
+            timelineAdjustment -= (vars.scriptureComfort - defaults.scriptureComfort) * 1;
+            timelineAdjustment -= (vars.ordinanceSalvation - defaults.ordinanceSalvation) * 1;
+            timelineAdjustment -= (vars.familyConcernAlleviated - defaults.familyConcernAlleviated) * 1;
+            timelineAdjustment -= (vars.lifeStability - defaults.lifeStability) * 1;
+            timelineAdjustment -= (vars.catalystNeedsChrist - defaults.catalystNeedsChrist) * 1;
+            timelineAdjustment -= (vars.communityProximity - defaults.communityProximity) * 1;
+            timelineAdjustment -= (vars.journeyReadiness - defaults.journeyReadiness) * 1;
+            timelineAdjustment -= (vars.witnessHours - defaults.witnessHours) * 1;
+            timelineAdjustment -= (vars.conversationFreq - defaults.conversationFreq) * 1;
+            timelineAdjustment -= (vars.scriptureProgress - defaults.scriptureProgress) * 1;
+            timelineAdjustment -= (vars.hoursSpentMulling - defaults.hoursSpentMulling) * 1;
+
+            // Negative sliders (higher value = further date = positive adjustment)
+            timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
+            timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
 
             // Calculate days between now and baseline
             const now = new Date();
@@ -259,7 +296,7 @@
               journeyReadiness: 45,
               witnessHours: 75,
               conversationFreq: 50,
-              scriptureProgress: 10,
+              scriptureProgress: 15,
               hoursSpentMulling: 25,
               attendedEvent: true,
               holySpirit: false,
