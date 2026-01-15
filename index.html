@@ -168,10 +168,16 @@
             };
 
             // Positive sliders (higher value = closer date = negative adjustment)
+            // Exclude sliders that are controlled by scenario buttons when those buttons are active
             timelineAdjustment -= (vars.josephSmithAcceptance - defaults.josephSmithAcceptance) * 1;
             timelineAdjustment -= (vars.scriptureComfort - defaults.scriptureComfort) * 1;
             timelineAdjustment -= (vars.ordinanceSalvation - defaults.ordinanceSalvation) * 1;
-            timelineAdjustment -= (vars.familyConcernAlleviated - defaults.familyConcernAlleviated) * 1;
+            
+            // Only apply familyConcernAlleviated slider if family scenario is NOT active
+            if (!scenarioFamily) {
+              timelineAdjustment -= (vars.familyConcernAlleviated - defaults.familyConcernAlleviated) * 1;
+            }
+            
             timelineAdjustment -= (vars.lifeStability - defaults.lifeStability) * 1;
             timelineAdjustment -= (vars.catalystNeedsChrist - defaults.catalystNeedsChrist) * 1;
             timelineAdjustment -= (vars.communityProximity - defaults.communityProximity) * 1;
@@ -187,8 +193,17 @@
             timelineAdjustment -= (vars.midnightReading - defaults.midnightReading) * 1;
 
             // Negative sliders (higher value = further date = positive adjustment)
-            timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
-            timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
+            // Only apply coffeeDependency slider if coffee scenario is NOT active
+            if (!scenarioCoffee) {
+              timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
+            }
+            
+            // Only apply graceWorksGap slider if grace scenario button state matches default
+            if (scenarioGrace) {
+              // Grace is ON (resolved at 15), no slider adjustment needed
+            } else {
+              timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
+            }
 
             // Calculate days between now and baseline
             const now = new Date();
