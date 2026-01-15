@@ -58,7 +58,7 @@
         function ConversionForecast() {
           const [variables, setVariables] = useState({
             coffeeDependency: 70,
-            graceWorksGap: 15, // Default ON (resolved)
+            graceWorksGap: 10, // Updated from 15 to 10 (mostly resolved)
             josephSmithAcceptance: 10,
             scriptureComfort: 20,
             ordinanceSalvation: 25,
@@ -149,7 +149,7 @@
             // Default values for reference
             const defaults = {
               coffeeDependency: 70,
-              graceWorksGap: 15,
+              graceWorksGap: 10,
               josephSmithAcceptance: 10,
               scriptureComfort: 20,
               ordinanceSalvation: 25,
@@ -198,12 +198,9 @@
               timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
             }
             
-            // Only apply graceWorksGap slider if grace scenario button state matches default
-            if (scenarioGrace) {
-              // Grace is ON (resolved at 15), no slider adjustment needed
-            } else {
-              timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
-            }
+            // Grace/Works Gap slider ALWAYS applies (independent of button)
+            // The button just presets the slider value, but slider changes always count
+            timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
 
             // Calculate days between now and baseline
             const now = new Date();
@@ -298,7 +295,7 @@
           const toggleGraceScenario = () => {
             const newState = !scenarioGrace;
             setscenarioGrace(newState);
-            setVariables({...variables, graceWorksGap: newState ? 15 : 25});
+            setVariables({...variables, graceWorksGap: newState ? 10 : 25});
           };
 
           const resetScenario = () => {
@@ -307,7 +304,7 @@
             setscenarioGrace(true);
             setVariables({
               coffeeDependency: 70,
-              graceWorksGap: 15,
+              graceWorksGap: 10,
               josephSmithAcceptance: 10,
               scriptureComfort: 20,
               ordinanceSalvation: 25,
