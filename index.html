@@ -202,16 +202,15 @@
             // The button just presets the slider value, but slider changes always count
             timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
 
-            // Calculate days between now and baseline
+            // Calculate days between now and baseline (preserve millisecond precision)
             const now = new Date();
-            const daysToBaseline = Math.floor((BASELINE_DATE - now) / (1000 * 60 * 60 * 24));
+            const millisecondsToBaseline = BASELINE_DATE - now;
             
-            // Apply percentage adjustment
-            const adjustedDays = Math.round(daysToBaseline * (1 + timelineAdjustment / 100));
+            // Apply percentage adjustment to milliseconds (not just days)
+            const adjustedMilliseconds = Math.round(millisecondsToBaseline * (1 + timelineAdjustment / 100));
             
             // Calculate new projected date
-            const newDate = new Date(now);
-            newDate.setDate(newDate.getDate() + adjustedDays);
+            const newDate = new Date(now.getTime() + adjustedMilliseconds);
             
             return newDate;
           };
