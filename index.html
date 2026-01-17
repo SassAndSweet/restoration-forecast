@@ -43,7 +43,7 @@
             border: 2px solid currentColor;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        input[type="range"]::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
             width: 18px;
             height: 18px;
             background: white;
@@ -51,30 +51,34 @@
             border-radius: 50%;
             border: 2px solid currentColor;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            /* Analytics Icon */
+        }
+        
+        /* Analytics Icon - BIG & WIGGLY! */
         .analytics-icon {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            font-size: 24px;
-            opacity: 0.4;
+            font-size: 32px;
+            opacity: 0.5;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 1000;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.9);
-            width: 50px;
-            height: 50px;
+            background: linear-gradient(135deg, #C9A06E 0%, #D4AF6A 100%);
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(201, 160, 110, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.8);
         }
         .analytics-icon:hover {
             opacity: 1;
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: scale(1.2) rotate(-15deg);
+            box-shadow: 0 6px 25px rgba(201, 160, 110, 0.6);
+            border-color: rgba(255, 255, 255, 1);
         }
     </style>
 </head>
