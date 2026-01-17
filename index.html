@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7C0JK4S0T9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7C0JK4S0T9');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rachel's Path to Restoration</title>
@@ -43,12 +51,39 @@
             border-radius: 50%;
             border: 2px solid currentColor;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            /* Analytics Icon */
+        .analytics-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 24px;
+            opacity: 0.4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.9);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .analytics-icon:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
+    <!-- Analytics Icon -->
+    <a href="https://analytics.google.com" target="_blank" class="analytics-icon" title="View Analytics">☕️</a>
+   
     <script type="text/babel">
         const { useState, useEffect } = React;
 
