@@ -43,7 +43,7 @@
             border: 2px solid currentColor;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-input[type="range"]::-moz-range-thumb {
+        input[type="range"]::-moz-range-thumb {
             width: 18px;
             height: 18px;
             background: white;
@@ -97,37 +97,38 @@ input[type="range"]::-moz-range-thumb {
         function ConversionForecast() {
           const [variables, setVariables] = useState({
             coffeeDependency: 70,
-            graceWorksGap: 10, // Updated from 15 to 10 (mostly resolved)
+            graceWorksGap: 10,
             josephSmithAcceptance: 10,
             scriptureComfort: 20,
             ordinanceSalvation: 25,
             familyConcernAlleviated: 20,
             lifeStability: 50,
             catalystNeedsChrist: 50,
-            celestialConsiderations: false, // Default OFF
+            celestialConsiderations: false,
             communityProximity: 70,
             journeyReadiness: 45,
             witnessHours: 75,
             conversationFreq: 50,
-            scriptureProgress: 15, // Updated from 10 to 15
+            scriptureProgress: 15,
             hoursSpentMulling: 25,
-            attendedEvent: true, // Default ON
-            holySpirit: false, // Default OFF
-            identityAlignment: false, // Default OFF
+            attendedEvent: true,
+            holySpirit: false,
+            identityAlignment: false,
             teaSessions: 8,
             memeRate: 20,
-            midnightReading: 10 // Updated from 6 to 10
+            midnightReading: 10
           });
 
+          const [snowStorm, setSnowStorm] = useState(false);
           const [probability, setProbability] = useState(0);
           const [activeScenario, setActiveScenario] = useState('');
           const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
           const [projectedDate, setProjectedDate] = useState(BASELINE_DATE);
 
-          // Scenario states (separate from variable toggles)
+          // Scenario states
           const [scenarioCoffee, setScenarioCoffee] = useState(false);
           const [scenarioFamily, setscenarioFamily] = useState(false);
-          const [scenarioGrace, setscenarioGrace] = useState(true); // Default ON
+          const [scenarioGrace, setscenarioGrace] = useState(true);
 
           const calculateProbability = (vars) => {
             const barrierScore = (
@@ -154,8 +155,8 @@ input[type="range"]::-moz-range-thumb {
             );
             
             const eventBonus = (
-              (vars.attendedEvent ? 15 : 0) + // Updated to 15%
-              (vars.holySpirit ? 10 : 0) + // Updated to 10%
+              (vars.attendedEvent ? 15 : 0) +
+              (vars.holySpirit ? 10 : 0) +
               (vars.identityAlignment ? 10 : 0) +
               (vars.celestialConsiderations ? 10 : 0)
             );
@@ -166,26 +167,36 @@ input[type="range"]::-moz-range-thumb {
               Math.min(vars.midnightReading / 10, 1) * 2
             );
             
-            const total = barrierScore + lifeScore + witnessScore + eventBonus + playfulScore;
+            let total = barrierScore + lifeScore + witnessScore + eventBonus + playfulScore;
+            
+            // Apply snow storm penalty
+            if (snowStorm) {
+              total = total * 0.75;
+            }
+            
             return Math.min(Math.max(total, 0), 100);
           };
 
           const calculateProjectedDate = (vars) => {
             let timelineAdjustment = 0;
 
+            // Snow storm adds 25% to timeline
+            if (snowStorm) {
+              timelineAdjustment += 25;
+            }
+
             // Toggle-based adjustments
             if (vars.celestialConsiderations) timelineAdjustment -= 10;
             if (vars.identityAlignment) timelineAdjustment -= 10;
             if (vars.holySpirit) timelineAdjustment -= 15;
-            if (!vars.attendedEvent) timelineAdjustment += 25; // When OFF, pushes out
+            if (!vars.attendedEvent) timelineAdjustment += 25;
 
-            // Scenario button adjustments (using scenario states)
-            if (!scenarioGrace) timelineAdjustment += 5; // When OFF, pushes out
+            // Scenario button adjustments
+            if (!scenarioGrace) timelineAdjustment += 5;
             if (scenarioFamily) timelineAdjustment -= 8;
             if (scenarioCoffee) timelineAdjustment -= 15;
 
-            // SLIDER-BASED ADJUSTMENTS (1% per point from default)
-            // Default values for reference
+            // Slider adjustments
             const defaults = {
               coffeeDependency: 70,
               graceWorksGap: 10,
@@ -206,13 +217,10 @@ input[type="range"]::-moz-range-thumb {
               midnightReading: 10
             };
 
-            // Positive sliders (higher value = closer date = negative adjustment)
-            // Exclude sliders that are controlled by scenario buttons when those buttons are active
             timelineAdjustment -= (vars.josephSmithAcceptance - defaults.josephSmithAcceptance) * 1;
             timelineAdjustment -= (vars.scriptureComfort - defaults.scriptureComfort) * 1;
             timelineAdjustment -= (vars.ordinanceSalvation - defaults.ordinanceSalvation) * 1;
             
-            // Only apply familyConcernAlleviated slider if family scenario is NOT active
             if (!scenarioFamily) {
               timelineAdjustment -= (vars.familyConcernAlleviated - defaults.familyConcernAlleviated) * 1;
             }
@@ -225,30 +233,19 @@ input[type="range"]::-moz-range-thumb {
             timelineAdjustment -= (vars.conversationFreq - defaults.conversationFreq) * 1;
             timelineAdjustment -= (vars.scriptureProgress - defaults.scriptureProgress) * 1;
             timelineAdjustment -= (vars.hoursSpentMulling - defaults.hoursSpentMulling) * 1;
-
-            // Playful metrics (higher value = closer date = negative adjustment)
             timelineAdjustment -= (vars.teaSessions - defaults.teaSessions) * 1;
             timelineAdjustment -= (vars.memeRate - defaults.memeRate) * 1;
             timelineAdjustment -= (vars.midnightReading - defaults.midnightReading) * 1;
 
-            // Negative sliders (higher value = further date = positive adjustment)
-            // Only apply coffeeDependency slider if coffee scenario is NOT active
             if (!scenarioCoffee) {
               timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
             }
             
-            // Grace/Works Gap slider ALWAYS applies (independent of button)
-            // The button just presets the slider value, but slider changes always count
             timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
 
-            // Calculate days between now and baseline (preserve millisecond precision)
             const now = new Date();
             const millisecondsToBaseline = BASELINE_DATE - now;
-            
-            // Apply percentage adjustment to milliseconds (not just days)
             const adjustedMilliseconds = Math.round(millisecondsToBaseline * (1 + timelineAdjustment / 100));
-            
-            // Calculate new projected date
             const newDate = new Date(now.getTime() + adjustedMilliseconds);
             
             return newDate;
@@ -260,7 +257,7 @@ input[type="range"]::-moz-range-thumb {
             
             const newDate = calculateProjectedDate(variables);
             setProjectedDate(newDate);
-          }, [variables, scenarioCoffee, scenarioFamily, scenarioGrace]);
+          }, [variables, scenarioCoffee, scenarioFamily, scenarioGrace, snowStorm]);
 
           // Countdown timer effect
           useEffect(() => {
@@ -340,6 +337,7 @@ input[type="range"]::-moz-range-thumb {
             setScenarioCoffee(false);
             setscenarioFamily(false);
             setscenarioGrace(true);
+            setSnowStorm(false);
             setVariables({
               coffeeDependency: 70,
               graceWorksGap: 10,
@@ -403,6 +401,23 @@ input[type="range"]::-moz-range-thumb {
                     theological barriers, lived witness, and yes... herbal tea sessions.
                   </p>
                 </header>
+
+                {/* Snow Storm Toggle - Standalone */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '12px',
+                  padding: '1.5rem',
+                  marginBottom: '2rem',
+                  boxShadow: '0 3px 12px rgba(62, 39, 35, 0.12)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <SnowStormToggle 
+                    checked={snowStorm}
+                    onChange={setSnowStorm}
+                  />
+                </div>
 
                 <div style={{
                   background: 'white',
@@ -666,11 +681,10 @@ input[type="range"]::-moz-range-thumb {
                   </Section>
                 </div>
 
-                {/* Probability Trajectory - Full Width */}
+                {/* Probability Trajectory */}
                 <ProbabilityTrajectory />
 
                 {/* Factor Breakdown */}
-
                 <div style={{
                   background: 'white',
                   borderRadius: '16px',
@@ -741,6 +755,63 @@ input[type="range"]::-moz-range-thumb {
                   </p>
                 </footer>
               </div>
+            </div>
+          );
+        }
+
+        // Snow Storm Toggle Component
+        function SnowStormToggle({ checked, onChange }) {
+          return (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.5rem',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              padding: '0.5rem'
+            }}>
+              <label style={{
+                fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
+                color: '#3E2723',
+                fontWeight: '600',
+                textAlign: 'center',
+                flex: '0 1 auto'
+              }}>
+                ❄️ Is There a Massive Snow Storm on the Near Horizon? ❄️
+              </label>
+              <button
+                onClick={() => onChange(!checked)}
+                style={{
+                  width: '60px',
+                  height: '32px',
+                  borderRadius: '16px',
+                  background: checked ? '#7FB3D5' : '#E8E8E8',
+                  border: checked ? '3px solid #5DADE2' : '3px solid #BEBEBE',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  flexShrink: 0,
+                  boxShadow: checked ? '0 3px 12px rgba(93, 173, 226, 0.4)' : '0 2px 6px rgba(0,0,0,0.1)'
+                }}
+              >
+                <div style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  background: checked ? '#FFF' : '#999',
+                  position: 'absolute',
+                  top: '2px',
+                  left: checked ? '32px' : '2px',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px'
+                }}>
+                  {checked ? '❄️' : ''}
+                </div>
+              </button>
             </div>
           );
         }
@@ -1057,7 +1128,6 @@ input[type="range"]::-moz-range-thumb {
                 preserveAspectRatio="xMidYMid meet"
                 style={{ display: 'block', margin: '0 auto', maxWidth: '100%' }}
               >
-                {/* Calculate dimensions based on viewBox */}
                 {(() => {
                   const svgWidth = 800;
                   const chartWidth = svgWidth - padding.left - padding.right;
@@ -1073,7 +1143,6 @@ input[type="range"]::-moz-range-thumb {
 
                   return (
                     <>
-                      {/* Grid lines */}
                       {[70, 75, 80].map(yValue => {
                         const y = padding.top + chartHeight - ((yValue - yMin) / (yMax - yMin)) * chartHeight;
                         return (
@@ -1100,7 +1169,6 @@ input[type="range"]::-moz-range-thumb {
                         );
                       })}
 
-                      {/* Path */}
                       <path
                         d={pathData}
                         fill="none"
@@ -1110,7 +1178,6 @@ input[type="range"]::-moz-range-thumb {
                         strokeLinejoin="round"
                       />
 
-                      {/* Points and labels */}
                       {points.map((point, i) => {
                         const x = getX(point);
                         const y = getY(point);
