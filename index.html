@@ -764,54 +764,70 @@
           return (
             <div style={{
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              gap: '1.5rem',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
+              gap: '1rem',
               padding: '0.5rem'
             }}>
-              <label style={{
-                fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
-                color: '#3E2723',
-                fontWeight: '600',
-                textAlign: 'center',
-                flex: '0 1 auto'
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1.5rem',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
               }}>
-                ❄️ Is There a Massive Snow Storm on the Near Horizon? ❄️
-              </label>
-              <button
-                onClick={() => onChange(!checked)}
-                style={{
-                  width: '60px',
-                  height: '32px',
-                  borderRadius: '16px',
-                  background: checked ? '#7FB3D5' : '#E8E8E8',
-                  border: checked ? '3px solid #5DADE2' : '3px solid #BEBEBE',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  flexShrink: 0,
-                  boxShadow: checked ? '0 3px 12px rgba(93, 173, 226, 0.4)' : '0 2px 6px rgba(0,0,0,0.1)'
-                }}
-              >
-                <div style={{
-                  width: '22px',
-                  height: '22px',
-                  borderRadius: '50%',
-                  background: checked ? '#FFF' : '#999',
-                  position: 'absolute',
-                  top: '2px',
-                  left: checked ? '32px' : '2px',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '12px'
+                <label style={{
+                  fontSize: 'clamp(1.15rem, 3vw, 1.35rem)',
+                  color: '#3E2723',
+                  fontWeight: '600',
+                  textAlign: 'center',
+                  flex: '0 1 auto'
                 }}>
-                  {checked ? '❄️' : ''}
-                </div>
-              </button>
+                  ❄️ Is There a Massive Snow Storm on the Horizon? ❄️
+                </label>
+                <button
+                  onClick={() => onChange(!checked)}
+                  style={{
+                    width: '60px',
+                    height: '32px',
+                    borderRadius: '16px',
+                    background: checked ? '#7FB3D5' : '#E8E8E8',
+                    border: checked ? '3px solid #5DADE2' : '3px solid #BEBEBE',
+                    position: 'relative',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    flexShrink: 0,
+                    boxShadow: checked ? '0 3px 12px rgba(93, 173, 226, 0.4)' : '0 2px 6px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  <div style={{
+                    width: '22px',
+                    height: '22px',
+                    borderRadius: '50%',
+                    background: checked ? '#FFF' : '#999',
+                    position: 'absolute',
+                    top: '2px',
+                    left: checked ? '32px' : '2px',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px'
+                  }}>
+                    {checked ? '❄️' : ''}
+                  </div>
+                </button>
+              </div>
+              <p style={{
+                fontSize: '0.75rem',
+                color: '#8D6E63',
+                fontStyle: 'italic',
+                textAlign: 'center',
+                marginTop: '-0.25rem'
+              }}>
+                Default to No, Yes is a Setback for This Delicate Flower
+              </p>
             </div>
           );
         }
