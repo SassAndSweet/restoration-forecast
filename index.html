@@ -53,7 +53,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
-        /* Analytics Icon - BIG & WIGGLY! */
+        /* Analytics Icon */
         .analytics-icon {
             position: fixed;
             bottom: 20px;
@@ -80,18 +80,136 @@
             box-shadow: 0 6px 25px rgba(201, 160, 110, 0.6);
             border-color: rgba(255, 255, 255, 1);
         }
+        
+        /* Snow Toggle Button */
+        .snow-toggle-button {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            background: linear-gradient(135deg, #7FB3D5 0%, #5DADE2 100%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(93, 173, 226, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            opacity: 0.8;
+        }
+        .snow-toggle-button:hover {
+            opacity: 1;
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(93, 173, 226, 0.6);
+        }
+        .snow-toggle-button.off {
+            background: linear-gradient(135deg, #D4D4D4 0%, #BEBEBE 100%);
+            opacity: 0.5;
+        }
+        
+        /* Snowfall Container */
+        #snowfall-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+        
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #FFFFFF;
+            font-size: 18px;
+            opacity: 0.75;
+            pointer-events: none;
+            animation: snowfall linear infinite;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        }
+        
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
+    <div id="snowfall-container"></div>
 
     <!-- Analytics Icon -->
     <a href="https://analytics.google.com" target="_blank" class="analytics-icon" title="View Analytics">☕️</a>
+    
+    <!-- Snow Toggle Button -->
+    <div id="snow-toggle" class="snow-toggle-button" title="Toggle Snow" onclick="toggleSnow()">❄️</div>
+   
+    <script>
+        // Snow animation control
+        let snowEnabled = true; // Default ON for this weekend
+        let snowflakes = [];
+        
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.textContent = '❄️';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.fontSize = (Math.random() * 10 + 12) + 'px';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.5; // 0.5 to 1.0
+            snowflake.style.animationDuration = (Math.random() * 8 + 7) + 's'; // 7-15 seconds
+            snowflake.style.animationDelay = Math.random() * 5 + 's';
+            
+            return snowflake;
+        }
+        
+        function initSnow() {
+            const container = document.getElementById('snowfall-container');
+            container.innerHTML = '';
+            snowflakes = [];
+            
+            if (snowEnabled) {
+                // Create 30 snowflakes
+                for (let i = 0; i < 30; i++) {
+                    const snowflake = createSnowflake();
+                    container.appendChild(snowflake);
+                    snowflakes.push(snowflake);
+                }
+            }
+        }
+        
+        function toggleSnow() {
+            snowEnabled = !snowEnabled;
+            const button = document.getElementById('snow-toggle');
+            
+            if (snowEnabled) {
+                button.classList.remove('off');
+                initSnow();
+            } else {
+                button.classList.add('off');
+                document.getElementById('snowfall-container').innerHTML = '';
+            }
+        }
+        
+        // Initialize snow on page load
+        window.addEventListener('load', () => {
+            initSnow();
+        });
+    </script>
    
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // BASELINE DATE - Change this to adjust the default target date
+        // BASELINE DATE
         const BASELINE_DATE = new Date('2026-09-27T12:00:00-04:00');
 
         function ConversionForecast() {
@@ -125,7 +243,6 @@
           const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
           const [projectedDate, setProjectedDate] = useState(BASELINE_DATE);
 
-          // Scenario states
           const [scenarioCoffee, setScenarioCoffee] = useState(false);
           const [scenarioFamily, setscenarioFamily] = useState(false);
           const [scenarioGrace, setscenarioGrace] = useState(true);
@@ -169,7 +286,6 @@
             
             let total = barrierScore + lifeScore + witnessScore + eventBonus + playfulScore;
             
-            // Apply snow storm penalty
             if (snowStorm) {
               total = total * 0.75;
             }
@@ -180,23 +296,19 @@
           const calculateProjectedDate = (vars) => {
             let timelineAdjustment = 0;
 
-            // Snow storm adds 25% to timeline
             if (snowStorm) {
               timelineAdjustment += 25;
             }
 
-            // Toggle-based adjustments
             if (vars.celestialConsiderations) timelineAdjustment -= 10;
             if (vars.identityAlignment) timelineAdjustment -= 10;
             if (vars.holySpirit) timelineAdjustment -= 15;
             if (!vars.attendedEvent) timelineAdjustment += 25;
 
-            // Scenario button adjustments
             if (!scenarioGrace) timelineAdjustment += 5;
             if (scenarioFamily) timelineAdjustment -= 8;
             if (scenarioCoffee) timelineAdjustment -= 15;
 
-            // Slider adjustments
             const defaults = {
               coffeeDependency: 70,
               graceWorksGap: 10,
@@ -259,7 +371,6 @@
             setProjectedDate(newDate);
           }, [variables, scenarioCoffee, scenarioFamily, scenarioGrace, snowStorm]);
 
-          // Countdown timer effect
           useEffect(() => {
             const updateCountdown = () => {
               const now = new Date();
@@ -282,11 +393,6 @@
             
             return () => clearInterval(timer);
           }, [projectedDate]);
-
-          const getProjectedDate = () => {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return projectedDate.toLocaleDateString('en-US', options);
-          };
 
           const getProjectedDateRange = () => {
             if (probability < 20) return "Timeline uncertain - probability too low";
@@ -402,7 +508,7 @@
                   </p>
                 </header>
 
-                {/* Snow Storm Toggle - Standalone */}
+                {/* Snow Storm Toggle */}
                 <div style={{
                   background: 'white',
                   borderRadius: '12px',
@@ -681,10 +787,8 @@
                   </Section>
                 </div>
 
-                {/* Probability Trajectory */}
                 <ProbabilityTrajectory />
 
-                {/* Factor Breakdown */}
                 <div style={{
                   background: 'white',
                   borderRadius: '16px',
@@ -759,7 +863,6 @@
           );
         }
 
-        // Snow Storm Toggle Component
         function SnowStormToggle({ checked, onChange }) {
           return (
             <div style={{
