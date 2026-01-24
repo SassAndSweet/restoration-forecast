@@ -1,87 +1,108 @@
-# restoration-forecast
-Rachel's Path to Restoration: A Theological Forecasting Model
-# Rachel's Path to Restoration: A Theological Forecasting Model
+# 🌿 Path to Restoration Forecast
 
-## Overview
+**A Playful Probabilistic Model of Peter's Journey Back to the LDS Church**
 
-This is a private, nerdy, deeply affectionate forecasting model created as a gift for a close friend. It calculates the probability that I (Rachel) will convert to the Church of Jesus Christ of Latter-day Saints, and estimates when this might occur.
-
-**Important disclaimers:**
-- This is NOT meant to mock religion or reduce sacred questions to mere statistics
-- This IS meant to show how seriously I'm taking this exploration
-- The model uses real theological barriers, lived experiences, and yes, some playful metrics (herbal tea sessions count, apparently)
-- This represents months of genuine conversation, scripture reading, and spiritual wrestling
-
-## Methodology
-
-The model employs a weighted Bayesian approach where each variable contributes to an overall conversion probability. Variables include theological barriers (grace vs. works, additional scripture comfort), life factors (family concerns, community proximity), witness exposure (lived faith observation hours), key spiritual events, and... the late-night Book of Mormon reading count.
-
-Think of this as a dashboard for a sincere faith journey, built by someone who takes both data and discipleship seriously.
-
-## Variables
-
-### Theological Barriers (4 variables)
-- **Coffee Dependency Index**: Lifestyle barrier - coffee is life
-- **Grace vs. Works Gap**: Fundamental doctrinal difference between Evangelical and LDS theology
-- **Additional Scripture Comfort Level**: Openness to revealed scripture beyond the Bible
-- **Salvation Timeline Preference Gap**: Moment-in-time salvation vs. process/ordinances
-
-### Life Factors (3 variables)
-- **Family Reaction Concern**: Impact of potential family disappointment
-- **Personal Life Event That Forces Eternal Considerations**: Major life events that prompt theological reflection
-- **Community Proximity Requirement, Specific Friend Included**: Need for personal connection within ward community
-
-### Witness & Engagement (3 variables)
-- **Lived Faith Witness Exposure Hours**: Time spent observing authentic faith in action
-- **Theological Conversation Frequency**: Regular deep discussions about faith
-- **Scripture Reading Progress**: Commitment to reading Book of Mormon and Doctrine & Covenants
-
-### Key Events (2 binary variables)
-- **Attended Church Event by Invitation**: Threshold-crossing moment of participation
-- **Holy Spirit Instigated Event Factor**: Divine intervention moments
-
-### Playful Metrics (3 variables)
-- **Herbal Tea Sessions per Month**: Bonding rituals over tea (the irony!)
-- **Spiritual Meme Exchange Rate**: Regular sharing of faith-related content
-- **Late-Night Scripture Reading Incidents**: Post-midnight Book of Mormon chapters
-
-## Scenario Modeling
-
-The model includes three "what-if" scenarios:
-1. **What if coffee wasn't a factor?** - Removes the lifestyle barrier
-2. **What if family was fully supportive?** - Eliminates family concern
-3. **Grace/Works Question Internally Resolved** - Theological breakthrough
-
-## How to Use
-
-Visit the live model at: [GitHub Pages URL will go here]
-
-Adjust the sliders and toggles to see how different factors affect the conversion probability in real-time. The model updates dynamically and provides:
-- Current probability percentage
-- Projected timeline
-- Factor contribution breakdown
-
-## Technical Details
-
-Built with:
-- React for interactive UI
-- Real-time Bayesian probability calculations
-- Responsive design optimized for both desktop and mobile
-- ADHD-friendly visual hierarchy with color-coding
-
-## Notes
-
-Some variables decrease in weight as probability increases (e.g., community proximity requirement becomes less of a barrier once the decision is made). This reflects the reality that certain factors matter more during exploration than after commitment.
-
-The projected timeline uses probability thresholds:
-- <20%: Timeline uncertain
-- 20-40%: Q4 2027 - Q2 2028
-- 40-60%: Q2 2026 - Q4 2026
-- 60-80%: Q3 2025 - Q1 2026
-- 80%+: Q1 2025 - Q2 2025
+© 2025 RCGG. All Rights Reserved.
 
 ---
 
-**Dedicated to a close friend who has been patient, thoughtful, and an incredible witness.**
+## About This Project
 
-*"And now, my beloved brethren, I would that ye should come unto Christ..." - 2 Nephi 9:23*
+This web application uses Bayesian probability modeling to forecast the likelihood of Peter returning to active LDS membership. Built as a deeply personal gift for a cherished friend, it combines genuine theological factors with playful elements like herbal tea consumption rates and spiritual meme exchanges.
+
+### Technical Overview
+
+**Architecture:**
+- **Backend:** Flask application with Python-based probability calculations
+- **Frontend:** Vanilla JavaScript with Chart.js for dynamic visualizations
+- **Deployment:** Backend hosted on Render.com, frontend on GitHub Pages
+- **Data Flow:** RESTful API endpoints serving JSON probability data to client-side rendering
+
+**Key Features:**
+- Multi-factor Bayesian probability engine incorporating life events, relationships, and spiritual activities
+- Real-time interactive sliders for adjusting conversion factors
+- Dynamic visualization of probability trajectories over time
+- Responsive design for mobile and desktop viewing
+
+---
+
+## The Model
+
+This forecast incorporates multiple conversion factors, weighted by their theological and personal significance:
+
+### Spiritual Factors
+- **Community Connection** (25% weight): Ward involvement, home teaching, sacrament meeting attendance
+- **Doctrinal Study** (20% weight): Scripture reading, General Conference talks, church history engagement
+- **Personal Revelation** (30% weight): Prayer frequency, temple proximity, spiritual experiences
+
+### Life Event Factors
+- **Relationship Milestones** (15% weight): Dating LDS individuals, marriage considerations
+- **Geographic Proximity** (10% weight): Distance to temples, ward boundaries
+
+### Playful Factors
+- **Herbal Tea Consumption**: Inverse correlation (because we have a sense of humor)
+- **Spiritual Meme Exchange Rate**: Positive correlation (because friendship matters)
+
+---
+
+## The Math
+
+The model uses a modified Bayesian approach:
+```
+P(Restoration | Evidence) = P(Evidence | Restoration) × P(Restoration) / P(Evidence)
+```
+
+Where evidence includes weighted factors updated based on:
+- Life event triggers (±5-15% probability shifts)
+- Sustained behavioral patterns (gradual 1-3% monthly adjustments)
+- Major spiritual experiences (±20-30% probability shifts)
+
+---
+
+## Why This Exists
+
+This project was created with love, hope, and a healthy dose of irreverence. It's meant to:
+1. Honor a deep friendship
+2. Explore the intersection of faith, probability, and friendship
+3. Provide a framework for thinking about spiritual journeys quantitatively (even when they're inherently unquantifiable)
+
+Peter: if you're reading this, you know I believe in you, whatever path you choose. This is just my nerdy way of saying I'm rooting for you. ❤️
+
+---
+
+## License
+
+This project is licensed under the MIT License - see below for details.
+```
+MIT License
+
+Copyright (c) 2025 RCGG
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## Acknowledgments
+
+Built with Flask, Chart.js, love, and an unreasonable amount of herbal tea.
+
+---
+
+*Note: This is a work of friendship and faith, not a serious actuarial prediction. Spiritual journeys are beautifully unpredictable, and that's exactly as it should be.*
