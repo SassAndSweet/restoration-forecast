@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Additional Context - Is the BoM Divine Revelation?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            font-family: 'Crimson Pro', serif;
+            background: linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .back-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #8B7355;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .back-button:hover {
+            background: #6D5940;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            color: #3E2723;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(62, 39, 35, 0.1);
+        }
+        
+        .section-title {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 600;
+            color: #3E2723;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .image-container {
+            border: 4px solid #C9A06E;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 2rem 0;
+            cursor: zoom-in;
+            transition: all 0.3s ease;
+        }
+        
+        .image-container:hover {
+            box-shadow: 0 8px 24px rgba(201, 160, 110, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .description {
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            color: #3E2723;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hebrew-examples {
+            background: #F5F1E8;
+            border-left: 4px solid #C9A06E;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .hebrew-example {
+            margin-bottom: 1.5rem;
+        }
+        
+        .hebrew-example:last-child {
+            margin-bottom: 0;
+        }
+        
+        .hebrew-text {
+            font-size: 1.3rem;
+            direction: rtl;
+            color: #6D4C41;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .english-text {
+            font-size: 1rem;
+            color: #5D4037;
+            font-style: italic;
+        }
+        
+        .reference {
+            font-size: 0.9rem;
+            color: #8D6E63;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .jacob-example {
+            background: #E8DCC8;
+            border-left: 4px solid #8B7355;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .jacob-text {
+            font-size: 1rem;
+            color: #3E2723;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Lightbox for zoomed image */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            cursor: zoom-out;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Back to Restoration Forecast</a>
+        
+        <h1>Additional Context - Is the BoM Divine Revelation?</h1>
+        
+        <div class="content-section">
+            <h2 class="section-title">Jacob 3:14 - Ancient Near Eastern Textual Markers</h2>
+            
+            <div class="image-container" onclick="openLightbox()">
+                <img src="Colophon_Comparison.png" alt="Comparison of Ancient Colophons - Genesis and Jacob 3:14" id="comparison-image">
+            </div>
+            
+            <p class="description">
+                Ancient Near Eastern texts often included "colophons" - brief closing statements that identified the author, source, or custodian of a record. In Hebrew scripture, these appear as the toledot formula (תּוֹלְדֹת - "generations" or "account"), marking the end of a narrative section and establishing its provenance. These weren't decorative - they were archival fingerprints, showing how records were kept, passed down, and compiled. The Book of Genesis uses this pattern repeatedly, and each occurrence signals: this section is complete, this is who recorded it, this is how it entered the larger collection.
+            </p>
+            
+            <p class="description">
+                What's striking about Jacob 3:14 is that it mirrors this same ancient pattern. The verse doesn't advance the theology or strengthen the narrative - it's administratively mundane in exactly the way ancient record-keeping was mundane. It reads like someone closing a family archive, not a 19th-century author crafting persuasive fiction. Whether one accepts the Book of Mormon's historical claims or not, this structural detail shows an awareness of how ancient documents actually worked - the kind of detail that doesn't typically appear in modern religious literature unless the author either knew ancient scribal conventions or was, as claimed, working from ancient source material.
+            </p>
+            
+            <div class="hebrew-examples">
+                <h3 style="color: #6D4C41; margin-bottom: 1rem; font-size: 1.1rem;">Genesis Examples of the Toledot Formula</h3>
+                
+                <div class="hebrew-example">
+                    <div class="reference">Genesis 2:4 (KJV)</div>
+                    <div class="hebrew-text">אֵלֶּה תוֹלְדוֹת הַשָּׁמַיִם וְהָאָרֶץ</div>
+                    <div class="english-text">"These are the generations of the heavens and of the earth"</div>
+                </div>
+                
+                <div class="hebrew-example">
+                    <div class="reference">Genesis 5:1 (KJV)</div>
+                    <div class="hebrew-text">זֶה סֵפֶר תּוֹלְדֹת אָדָם</div>
+                    <div class="english-text">"This is the book of the generations of Adam"</div>
+                </div>
+                
+                <div class="hebrew-example">
+                    <div class="reference">Genesis 10:1 (KJV)</div>
+                    <div class="hebrew-text">וְאֵלֶּה תּוֹלְדֹת בְּנֵי־נֹחַ</div>
+                    <div class="english-text">"Now these are the generations of the sons of Noah"</div>
+                </div>
+            </div>
+            
+            <div class="jacob-example">
+                <h3 style="color: #3E2723; margin-bottom: 1rem; font-size: 1.1rem;">Parallel Structure in Jacob 3:14</h3>
+                <div class="reference">Jacob 3:14 (Book of Mormon)</div>
+                <div class="jacob-text">"And these plates are called the plates of Jacob, and they were made by the hand of Nephi."</div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Lightbox for zoomed image -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img src="Colophon_Comparison.png" alt="Comparison of Ancient Colophons - Genesis and Jacob 3:14 - Zoomed">
+    </div>
+    
+    <script>
+        function openLightbox() {
+            document.getElementById('lightbox').classList.add('active');
+        }
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+        
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
