@@ -827,12 +827,12 @@
                       negative
                     />
                     <Variable
-                      label="Acceptance of Joseph Smith as Prophet"
+                      label={<span>Acceptance of Joseph Smith as Prophet<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='joseph-smith-context.html'}>²</sup></span>}
                       value={variables.josephSmithAcceptance}
                       onChange={(v) => setVariables({...variables, josephSmithAcceptance: v})}
                     />
                     <Variable
-                      label={<span>BOM/D&C Divine Revelation Acceptance<sup style={{fontSize: '0.75em', color: '#D32F2F', cursor: 'pointer', marginLeft: '3px', fontWeight: '700'}} onClick={() => document.getElementById('footnote-1').scrollIntoView({behavior: 'smooth'})}>¹</sup></span>}
+                      label={<span>BOM/D&C Divine Revelation Acceptance<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => document.getElementById('footnote-1').scrollIntoView({behavior: 'smooth'})}>¹</sup></span>}
                       value={variables.scriptureComfort}
                       onChange={(v) => setVariables({...variables, scriptureComfort: v})}
                     />
