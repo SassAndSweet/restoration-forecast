@@ -53,11 +53,13 @@ This is a nerdy, affectionate gift between close friends - a sophisticated proba
 
 ### Interactive Elements (ADHD-Friendly)
 - **Clickable Snowflakes**: Satisfying pop animation with synthetic bubble-wrap sound
+- **Clickable Spoons**: Satisfying pop animation with synthetic bubble-wrap sound
   - Slower fall speed (12-20 seconds) for easier targeting
   - 2.5x scale burst animation
   - Web Audio API pop sound on click
   - Automatic replacement after popping
 - **Pulsing Snow Toggle**: Gentle breathing animation on floating button
+- **Pulsing Spoon Toggle**: Gentle breathing animation on floating button
 - **Hover Effects**: Enhanced slider interactions with glowing drop-shadows
 - **Confetti Burst**: Celebration animation triggers at 100% probability (150 pieces, physics-based fall)
 
