@@ -98,8 +98,8 @@
             border-color: rgba(255, 255, 255, 1);
         }
         
-        /* Snow Toggle Button */
-        .snow-toggle-button {
+        /* Spoon Toggle Button */
+        .spoon-toggle-button {
             position: fixed;
             bottom: 100px;
             right: 20px;
@@ -107,43 +107,43 @@
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 1000;
-            background: linear-gradient(135deg, #7FB3D5 0%, #5DADE2 100%);
+            background: linear-gradient(135deg, #C9A06E 0%, #D4AF6A 100%);
             width: 60px;
             height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(93, 173, 226, 0.4);
+            box-shadow: 0 4px 15px rgba(201, 160, 110, 0.4);
             border: 3px solid rgba(255, 255, 255, 0.9);
             opacity: 0.8;
-            animation: snowPulse 2s ease-in-out infinite;
+            animation: spoonPulse 2s ease-in-out infinite;
         }
-        .snow-toggle-button:hover {
+        .spoon-toggle-button:hover {
             opacity: 1;
             transform: scale(1.15);
-            box-shadow: 0 6px 20px rgba(93, 173, 226, 0.6);
+            box-shadow: 0 6px 20px rgba(201, 160, 110, 0.6);
             animation: none;
         }
-        .snow-toggle-button.off {
+        .spoon-toggle-button.off {
             background: linear-gradient(135deg, #D4D4D4 0%, #BEBEBE 100%);
             opacity: 0.5;
             animation: none;
         }
         
-        @keyframes snowPulse {
+        @keyframes spoonPulse {
             0%, 100% {
                 transform: scale(1);
-                box-shadow: 0 4px 15px rgba(93, 173, 226, 0.4);
+                box-shadow: 0 4px 15px rgba(201, 160, 110, 0.4);
             }
             50% {
                 transform: scale(1.05);
-                box-shadow: 0 6px 20px rgba(93, 173, 226, 0.6);
+                box-shadow: 0 6px 20px rgba(201, 160, 110, 0.6);
             }
         }
         
-        /* Snowfall Container */
-        #snowfall-container {
+        /* Spoonfall Container */
+        #spoonfall-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -154,29 +154,29 @@
             overflow: hidden;
         }
         
-        .snowflake {
+        .spoon {
             position: absolute;
             top: -10px;
-            color: #FFFFFF;
+            color: #FDF8F0;
             font-size: 20px;
             opacity: 0.75;
             pointer-events: auto;
-            animation: snowfall linear infinite;
-            text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+            animation: spoonFall linear infinite;
+            text-shadow: 0 0 3px rgba(201, 160, 110, 0.8);
             cursor: pointer;
             transition: transform 0.2s ease, filter 0.2s ease;
         }
         
-        .snowflake:hover {
+        .spoon:hover {
             transform: scale(1.5);
             filter: brightness(1.2);
         }
         
-        .snowflake.popping {
-            animation: snowPop 0.4s ease forwards;
+        .spoon.popping {
+            animation: spoonPop 0.4s ease forwards;
         }
         
-        @keyframes snowPop {
+        @keyframes spoonPop {
             0% {
                 transform: scale(1);
                 opacity: 0.75;
@@ -189,6 +189,69 @@
                 transform: scale(0);
                 opacity: 0;
             }
+        }
+
+        .spoon-pop-ring {
+            position: fixed;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(201, 160, 110, 0.9);
+            box-shadow: 0 0 10px rgba(201, 160, 110, 0.6);
+            pointer-events: none;
+            animation: spoonPopRing 0.45s ease-out forwards;
+            z-index: 1001;
+        }
+
+        @keyframes spoonPopRing {
+            0% {
+                transform: translate(-50%, -50%) scale(0.6);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.2);
+                opacity: 0;
+            }
+        }
+
+        /* Spoon Basket */
+        #spoon-basket {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 110px;
+            border-radius: 16px 16px 26px 26px;
+            background: linear-gradient(180deg, rgba(139, 115, 85, 0.25), rgba(139, 115, 85, 0.65));
+            border: 3px solid rgba(139, 115, 85, 0.8);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 998;
+            pointer-events: none;
+        }
+
+        #spoon-basket::before {
+            content: "";
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid rgba(139, 115, 85, 0.8);
+            background: rgba(250, 245, 235, 0.4);
+        }
+
+        #spoon-basket-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10%;
+            background: linear-gradient(180deg, rgba(201, 160, 110, 0.4), rgba(201, 160, 110, 0.85));
+            transition: height 0.6s ease;
         }
         
         /* Confetti Animation */
@@ -222,31 +285,45 @@
             }
         }
         
-        @keyframes snowfall {
+        @keyframes spoonFall {
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) translateX(0) rotate(0deg);
             }
             100% {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(100vh) translateX(var(--drift, 0px)) rotate(360deg);
+            }
+        }
+
+        @keyframes spoonFallToBasket {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(calc(100vh - 140px)) translateX(var(--drift, 0px)) rotate(300deg);
             }
         }
     </style>
 </head>
 <body>
     <div id="root"></div>
-    <div id="snowfall-container"></div>
+    <div id="spoonfall-container"></div>
+    <div id="spoon-basket">
+        <div id="spoon-basket-fill"></div>
+    </div>
 
     <!-- Analytics Icon -->
     <a href="https://analytics.google.com" target="_blank" class="analytics-icon" title="View Analytics">☕️</a>
     
-    <!-- Snow Toggle Button -->
-    <div id="snow-toggle" class="snow-toggle-button" title="Toggle Snow" onclick="toggleSnow()">❄️</div>
+    <!-- Spoon Toggle Button -->
+    <div id="spoon-toggle" class="spoon-toggle-button" title="Toggle Spoons" onclick="toggleSpoons()">🥄</div>
    
     <script>
-        // Snow animation control
-        let snowEnabled = true; // Default ON for this weekend
-        let snowflakes = [];
+        // Spoon animation control
+        let spoonEnabled = true; // Default ON for this weekend
+        let spoons = [];
         let hasShownConfetti = false; // Track if we've shown confetti at 100%
+        let basketFillLevel = 0;
+        const maxBasketFill = 18;
         
         // Synthetic pop sound using Web Audio API
         function playPopSound() {
@@ -300,70 +377,116 @@
             }
         }
         
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.className = 'snowflake';
-            snowflake.textContent = '❄️';
-            snowflake.style.left = Math.random() * 100 + '%';
-            snowflake.style.fontSize = (Math.random() * 12 + 16) + 'px'; // Increased from 12-22px to 16-28px
-            snowflake.style.opacity = Math.random() * 0.5 + 0.5;
-            snowflake.style.animationDuration = (Math.random() * 8 + 12) + 's'; // Slowed from 7-15s to 12-20s
-            snowflake.style.animationDelay = Math.random() * 5 + 's';
-            
+        function updateBasketFill() {
+            const fill = document.getElementById('spoon-basket-fill');
+            if (!fill) return;
+            const percent = Math.min((basketFillLevel / maxBasketFill) * 100, 100);
+            fill.style.height = `${percent}%`;
+        }
+
+        function createPopRing(x, y) {
+            const ring = document.createElement('div');
+            ring.className = 'spoon-pop-ring';
+            ring.style.left = `${x}px`;
+            ring.style.top = `${y}px`;
+            document.body.appendChild(ring);
+            setTimeout(() => ring.remove(), 500);
+        }
+
+        function addSpoonToBasket() {
+            basketFillLevel = Math.min(basketFillLevel + 1, maxBasketFill);
+            updateBasketFill();
+        }
+
+        function createSpoon() {
+            const spoon = document.createElement('div');
+            spoon.className = 'spoon';
+            spoon.textContent = '🥄';
+            spoon.style.left = Math.random() * 100 + '%';
+            spoon.style.fontSize = (Math.random() * 10 + 18) + 'px';
+            spoon.style.opacity = Math.random() * 0.4 + 0.6;
+            spoon.style.animationDuration = (Math.random() * 8 + 12) + 's';
+            spoon.style.animationDelay = Math.random() * 4 + 's';
+            spoon.style.setProperty('--drift', `${(Math.random() * 160) - 80}px`);
+
+            const landsInBasket = Math.random() < 0.4;
+            spoon.dataset.lands = landsInBasket ? 'basket' : 'miss';
+            spoon.style.animationName = landsInBasket ? 'spoonFallToBasket' : 'spoonFall';
+
             // Add click handler for satisfying pop effect
-            snowflake.addEventListener('click', function() {
+            spoon.addEventListener('click', function(event) {
                 this.classList.add('popping');
                 // Play pop sound
                 playPopSound();
+                createPopRing(event.clientX, event.clientY);
                 setTimeout(() => {
                     this.remove();
-                    // Replace with a new snowflake after a delay
-                    if (snowEnabled) {
+                    // Replace with a new spoon after a delay
+                    if (spoonEnabled) {
                         setTimeout(() => {
-                            const container = document.getElementById('snowfall-container');
-                            if (container && snowEnabled) {
-                                const newFlake = createSnowflake();
-                                container.appendChild(newFlake);
+                            const container = document.getElementById('spoonfall-container');
+                            if (container && spoonEnabled) {
+                                const newSpoon = createSpoon();
+                                container.appendChild(newSpoon);
                             }
                         }, 1000);
                     }
-                }, 400); // Increased from 300ms to 400ms for longer animation
+                }, 400);
+            });
+
+            spoon.addEventListener('animationend', function() {
+                if (this.classList.contains('popping')) {
+                    return;
+                }
+                if (this.dataset.lands === 'basket') {
+                    addSpoonToBasket();
+                }
+                this.remove();
+                if (spoonEnabled) {
+                    const container = document.getElementById('spoonfall-container');
+                    if (container && spoonEnabled) {
+                        const newSpoon = createSpoon();
+                        container.appendChild(newSpoon);
+                    }
+                }
             });
             
-            return snowflake;
+            return spoon;
         }
         
-        function initSnow() {
-            const container = document.getElementById('snowfall-container');
+        function initSpoons() {
+            const container = document.getElementById('spoonfall-container');
             container.innerHTML = '';
-            snowflakes = [];
+            spoons = [];
+            basketFillLevel = 0;
+            updateBasketFill();
             
-            if (snowEnabled) {
-                // Create 30 snowflakes
+            if (spoonEnabled) {
+                // Create 30 spoons
                 for (let i = 0; i < 30; i++) {
-                    const snowflake = createSnowflake();
-                    container.appendChild(snowflake);
-                    snowflakes.push(snowflake);
+                    const spoon = createSpoon();
+                    container.appendChild(spoon);
+                    spoons.push(spoon);
                 }
             }
         }
         
-        function toggleSnow() {
-            snowEnabled = !snowEnabled;
-            const button = document.getElementById('snow-toggle');
+        function toggleSpoons() {
+            spoonEnabled = !spoonEnabled;
+            const button = document.getElementById('spoon-toggle');
             
-            if (snowEnabled) {
+            if (spoonEnabled) {
                 button.classList.remove('off');
-                initSnow();
+                initSpoons();
             } else {
                 button.classList.add('off');
-                document.getElementById('snowfall-container').innerHTML = '';
+                document.getElementById('spoonfall-container').innerHTML = '';
             }
         }
         
-        // Initialize snow on page load
+        // Initialize spoons on page load
         window.addEventListener('load', () => {
-            initSnow();
+            initSpoons();
             // Expose confetti function to window for React to use
             window.createConfettiBurst = createConfettiBurst;
             window.hasShownConfetti = false;
