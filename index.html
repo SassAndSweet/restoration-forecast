@@ -518,24 +518,24 @@ spoon.addEventListener('animationend', function() {
 
         function ConversionForecast() {
           const [variables, setVariables] = useState({
-            graceWorksGap: 10,
-            josephSmithAcceptance: 10,
-            bookOfMormonRevelation: 30,
-            doctrinesCovenantsRevelation: 20,
-            pearlGreatPriceRevelation: 5,
-            angelicTierVsEntity: 80,
-            ordinanceSalvation: 25,
-            coffeeDependency: 70,
-            familyConcernAlleviated: 20,
-            lifeStability: 50,
-            catalystNeedsChrist: 50,
-            celestialConsiderations: false,
-            communityProximity: 70,
-            journeyReadiness: 45,
-            witnessHours: 75,
-            conversationFreq: 50,
-            scriptureProgress: 20, // Updated from 15 to 20 (colophon discovery)
-            hoursSpentMulling: 30, // Updated from 25 to 30 (colophon discovery)
+  graceWorksGap: 10,
+  josephSmithAcceptance: 5,
+  bookOfMormonRevelation: 70,
+  doctrinesCovenantsRevelation: 10,
+  pearlGreatPriceRevelation: 3,
+  angelicTierVsEntity: 85,
+  ordinanceSalvation: 20,
+  coffeeDependency: 75,
+  familyConcernAlleviated: 15,
+  lifeStability: 50,
+  catalystNeedsChrist: 50,
+  celestialConsiderations: false,
+  communityProximity: 65,
+  journeyReadiness: 40,
+  witnessHours: 70,
+  conversationFreq: 45,
+  scriptureProgress: 15,
+  hoursSpentMulling: 25,
             attendedEvent: true,
             holySpirit: false,
             identityAlignment: false,
@@ -621,22 +621,22 @@ spoon.addEventListener('animationend', function() {
 
             const defaults = {
   graceWorksGap: 10,
-  josephSmithAcceptance: 10,
-  bookOfMormonRevelation: 30,
-  doctrinesCovenantsRevelation: 20,
-  pearlGreatPriceRevelation: 5,
-  angelicTierVsEntity: 80,
-  ordinanceSalvation: 25,
-  coffeeDependency: 70,
-              familyConcernAlleviated: 20,
-              lifeStability: 50,
-              catalystNeedsChrist: 50,
-              communityProximity: 70,
-              journeyReadiness: 45,
-              witnessHours: 75,
-              conversationFreq: 50,
-              scriptureProgress: 20, // Updated from 15 to 20
-              hoursSpentMulling: 30, // Updated from 25 to 30
+  josephSmithAcceptance: 5,
+  bookOfMormonRevelation: 70,
+  doctrinesCovenantsRevelation: 10,
+  pearlGreatPriceRevelation: 3,
+  angelicTierVsEntity: 85,
+  ordinanceSalvation: 20,
+  coffeeDependency: 75,
+  familyConcernAlleviated: 15,
+  lifeStability: 50,
+  catalystNeedsChrist: 50,
+  communityProximity: 65,
+  journeyReadiness: 40,
+  witnessHours: 70,
+  conversationFreq: 45,
+  scriptureProgress: 15,
+  hoursSpentMulling: 25,
               teaSessions: 8,
               memeRate: 20,
               midnightReading: 10
@@ -754,13 +754,13 @@ if (!scenarioCoffee) {
           const toggleCoffeeScenario = () => {
             const newState = !scenarioCoffee;
             setScenarioCoffee(newState);
-            setVariables({...variables, coffeeDependency: newState ? 35 : 70});
+            setVariables({...variables, coffeeDependency: newState ? 35 : 75});
           };
 
           const toggleFamilyScenario = () => {
             const newState = !scenarioFamily;
             setscenarioFamily(newState);
-            setVariables({...variables, familyConcernAlleviated: newState ? 90 : 20});
+            setVariables({...variables, familyConcernAlleviated: newState ? 90 : 15});
           };
 
           const toggleGraceScenario = () => {
@@ -776,23 +776,23 @@ if (!scenarioCoffee) {
             setSnowStorm(false);
             setVariables({
   graceWorksGap: 10,
-  josephSmithAcceptance: 10,
-  bookOfMormonRevelation: 30,
-doctrinesCovenantsRevelation: 20,
-pearlGreatPriceRevelation: 5,
-  angelicTierVsEntity: 80,
-  ordinanceSalvation: 25,
-  coffeeDependency: 70,
-  familyConcernAlleviated: 20,
-              lifeStability: 50,
-              catalystNeedsChrist: 50,
-              celestialConsiderations: false,
-              communityProximity: 70,
-              journeyReadiness: 45,
-              witnessHours: 75,
-              conversationFreq: 50,
-              scriptureProgress: 20,
-              hoursSpentMulling: 30,
+  josephSmithAcceptance: 5,
+  bookOfMormonRevelation: 70,
+  doctrinesCovenantsRevelation: 10,
+  pearlGreatPriceRevelation: 3,
+  angelicTierVsEntity: 85,
+  ordinanceSalvation: 20,
+  coffeeDependency: 75,
+  familyConcernAlleviated: 15,
+  lifeStability: 50,
+  catalystNeedsChrist: 50,
+  celestialConsiderations: false,
+  communityProximity: 65,
+  journeyReadiness: 40,
+  witnessHours: 70,
+  conversationFreq: 45,
+  scriptureProgress: 15,
+  hoursSpentMulling: 25,
               attendedEvent: true,
               holySpirit: false,
               identityAlignment: false,
@@ -1563,7 +1563,7 @@ pearlGreatPriceRevelation: 5,
             { x: 71, y: 83.9 },
             { x: 82, y: 80.1 },
             { x: 91, y: 82.0 },
-            { x: 100, y: 83.9, label: 'Today' }
+            { x: 100, y: 70.4, label: 'Today' }
           ];
 
           const svgHeight = 160;
