@@ -520,9 +520,9 @@ spoon.addEventListener('animationend', function() {
           const [variables, setVariables] = useState({
             graceWorksGap: 10,
             josephSmithAcceptance: 10,
-            bookOfMormonRevelation: 70,
-            doctrinesCovenantsRevelation: 30,
-            pearlGreatPriceRevelation: 10,
+            bookOfMormonRevelation: 30,
+            doctrinesCovenantsRevelation: 20,
+            pearlGreatPriceRevelation: 5,
             angelicTierVsEntity: 80,
             ordinanceSalvation: 25,
             coffeeDependency: 70,
@@ -745,7 +745,7 @@ if (!scenarioCoffee) {
   { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 15 : 0) + (variables.holySpirit ? 10 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
   { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
   { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
-  { name: "Angelic Tier vs Entity Barrier", value: -(variables.angelicTierVsEntity * 0.08 / total * 100), color: "#8B4513" },
+  { name: "Angelic Tier vs Entity Barrier", value: -(variables.angelicTierVsEntity * 0.15 / total * 100), color: "#8B4513" },
   { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
 ];
             return factors.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
@@ -777,9 +777,9 @@ if (!scenarioCoffee) {
             setVariables({
   graceWorksGap: 10,
   josephSmithAcceptance: 10,
-  bookOfMormonRevelation: 70,
-  doctrinesCovenantsRevelation: 30,
-  pearlGreatPriceRevelation: 10,
+  bookOfMormonRevelation: 30,
+doctrinesCovenantsRevelation: 20,
+pearlGreatPriceRevelation: 5,
   angelicTierVsEntity: 80,
   ordinanceSalvation: 25,
   coffeeDependency: 70,
