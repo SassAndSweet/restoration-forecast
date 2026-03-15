@@ -754,13 +754,13 @@ if (!scenarioCoffee) {
           const toggleCoffeeScenario = () => {
             const newState = !scenarioCoffee;
             setScenarioCoffee(newState);
-            ...variables, coffeeDependency: newState ? 35 : 75});
+            setVariables({...variables, coffeeDependency: newState ? 35 : 75});
           };
 
           const toggleFamilyScenario = () => {
             const newState = !scenarioFamily;
             setscenarioFamily(newState);
-            ...variables, familyConcernAlleviated: newState ? 90 : 15});
+            setVariables({...variables, familyConcernAlleviated: newState ? 90 : 15});
           };
 
           const toggleGraceScenario = () => {
