@@ -296,11 +296,11 @@
     <a href="https://analytics.google.com" target="_blank" class="analytics-icon" title="View Analytics">☕️</a>
     
     <!-- Spoon Toggle Button -->
-    <div id="spoon-toggle" class="spoon-toggle-button" title="Toggle Spoons" onclick="toggleSpoons()">🥄</div>
+    <div id="spoon-toggle" class="spoon-toggle-button off" title="Toggle Spoons" onclick="toggleSpoons()">🥄</div>
    
     <script>
         // Spoon animation control
-        let spoonEnabled = true; // Default ON for this weekend
+        let spoonEnabled = false; // Default OFF
         let spoons = [];
         let hasShownConfetti = false; // Track if we've shown confetti at 100%
         let basketFillLevel = 0;
@@ -519,7 +519,7 @@ spoon.addEventListener('animationend', function() {
         function ConversionForecast() {
           const [variables, setVariables] = useState({
   graceWorksGap: 10,
-  josephSmithAcceptance: 5,
+  josephSmithAcceptance: 56,
   bookOfMormonRevelation: 70,
   doctrinesCovenantsRevelation: 10,
   pearlGreatPriceRevelation: 3,
@@ -530,12 +530,12 @@ spoon.addEventListener('animationend', function() {
   lifeStability: 50,
   catalystNeedsChrist: 50,
   celestialConsiderations: false,
-  communityProximity: 65,
+  communityProximity: 45.5,
   journeyReadiness: 30,
   witnessHours: 50,
   conversationFreq: 25,
-  scriptureProgress: 5,
-  hoursSpentMulling: 15,
+  scriptureProgress: 36,
+  hoursSpentMulling: 57,
             attendedEvent: true,
             holySpirit: false,
             identityAlignment: false,
@@ -621,7 +621,7 @@ spoon.addEventListener('animationend', function() {
 
             const defaults = {
   graceWorksGap: 10,
-  josephSmithAcceptance: 5,
+  josephSmithAcceptance: 56,
   bookOfMormonRevelation: 70,
   doctrinesCovenantsRevelation: 10,
   pearlGreatPriceRevelation: 3,
@@ -631,12 +631,12 @@ spoon.addEventListener('animationend', function() {
   familyConcernAlleviated: 15,
   lifeStability: 50,
   catalystNeedsChrist: 50,
-  communityProximity: 65,
+  communityProximity: 45.5,
   journeyReadiness: 30,
   witnessHours: 50,
   conversationFreq: 25,
-  scriptureProgress: 5,
-  hoursSpentMulling: 15,
+  scriptureProgress: 36,
+  hoursSpentMulling: 57,
               teaSessions: 8,
               memeRate: 20,
               midnightReading: 10
@@ -754,13 +754,13 @@ if (!scenarioCoffee) {
           const toggleCoffeeScenario = () => {
             const newState = !scenarioCoffee;
             setScenarioCoffee(newState);
-            setVariables({...variables, coffeeDependency: newState ? 35 : 75});
+            ...variables, coffeeDependency: newState ? 35 : 75});
           };
 
           const toggleFamilyScenario = () => {
             const newState = !scenarioFamily;
             setscenarioFamily(newState);
-            setVariables({...variables, familyConcernAlleviated: newState ? 90 : 15});
+            ...variables, familyConcernAlleviated: newState ? 90 : 15});
           };
 
           const toggleGraceScenario = () => {
@@ -776,7 +776,7 @@ if (!scenarioCoffee) {
             setSnowStorm(false);
             setVariables({
   graceWorksGap: 10,
-  josephSmithAcceptance: 5,
+  josephSmithAcceptance: 56,
   bookOfMormonRevelation: 70,
   doctrinesCovenantsRevelation: 10,
   pearlGreatPriceRevelation: 3,
@@ -787,12 +787,12 @@ if (!scenarioCoffee) {
   lifeStability: 50,
   catalystNeedsChrist: 50,
   celestialConsiderations: false,
-  communityProximity: 45,
+  communityProximity: 45.5,
   journeyReadiness: 30,
   witnessHours: 50,
   conversationFreq: 25,
-  scriptureProgress: 5,
-  hoursSpentMulling: 15,
+  scriptureProgress: 36,
+  hoursSpentMulling: 57,
               attendedEvent: true,
               holySpirit: false,
               identityAlignment: false,
@@ -976,39 +976,39 @@ if (!scenarioCoffee) {
   <Variable
     label="Grace vs. Works Gap"
     value={variables.graceWorksGap}
-    onChange={(v) => setVariables({...variables, graceWorksGap: v})}
+    onChange={(v) => ...variables, graceWorksGap: v})}
     negative
   />
   <Variable
     label={<span>Acceptance of Joseph Smith as Prophet<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='joseph-smith-context.html'}>²</sup></span>}
     value={variables.josephSmithAcceptance}
-    onChange={(v) => setVariables({...variables, josephSmithAcceptance: v})}
+    onChange={(v) => ...variables, josephSmithAcceptance: v})}
   />
   <Variable
     label={<span>Book of Mormon as Divine Revelation<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='colophon-context.html'}>¹</sup></span>}
     value={variables.bookOfMormonRevelation}
-    onChange={(v) => setVariables({...variables, bookOfMormonRevelation: v})}
+    onChange={(v) => ...variables, bookOfMormonRevelation: v})}
   />
   <Variable
     label="Doctrine & Covenants as Divine Revelation"
     value={variables.doctrinesCovenantsRevelation}
-    onChange={(v) => setVariables({...variables, doctrinesCovenantsRevelation: v})}
+    onChange={(v) => ...variables, doctrinesCovenantsRevelation: v})}
   />
   <Variable
     label="Pearl of Great Price as Divine Revelation"
     value={variables.pearlGreatPriceRevelation}
-    onChange={(v) => setVariables({...variables, pearlGreatPriceRevelation: v})}
+    onChange={(v) => ...variables, pearlGreatPriceRevelation: v})}
   />
   <Variable
     label="Angelic Tier vs Entity"
     value={variables.angelicTierVsEntity}
-    onChange={(v) => setVariables({...variables, angelicTierVsEntity: v})}
+    onChange={(v) => ...variables, angelicTierVsEntity: v})}
     negative
   />
   <Variable
     label="Acceptance of Ordinance-Based Salvation"
     value={variables.ordinanceSalvation}
-    onChange={(v) => setVariables({...variables, ordinanceSalvation: v})}
+    onChange={(v) => ...variables, ordinanceSalvation: v})}
   />
 </Section>
 
@@ -1016,28 +1016,28 @@ if (!scenarioCoffee) {
   <Variable
     label="Coffee Dependency Index"
     value={variables.coffeeDependency}
-    onChange={(v) => setVariables({...variables, coffeeDependency: v})}
+    onChange={(v) => ...variables, coffeeDependency: v})}
     negative
   />
   <Variable
     label="Family Reaction Concerns Alleviated"
     value={variables.familyConcernAlleviated}
-    onChange={(v) => setVariables({...variables, familyConcernAlleviated: v})}
+    onChange={(v) => ...variables, familyConcernAlleviated: v})}
   />
   <Variable
     label="Life Stability & Rootedness"
     value={variables.lifeStability}
-    onChange={(v) => setVariables({...variables, lifeStability: v})}
+    onChange={(v) => ...variables, lifeStability: v})}
   />
   <Variable
     label="Catalyst Needs Christ's Anchoring"
     value={variables.catalystNeedsChrist}
-    onChange={(v) => setVariables({...variables, catalystNeedsChrist: v})}
+    onChange={(v) => ...variables, catalystNeedsChrist: v})}
   />
   <Variable
     label="Independent Journey & Timing Readiness"
     value={variables.journeyReadiness}
-    onChange={(v) => setVariables({...variables, journeyReadiness: v})}
+    onChange={(v) => ...variables, journeyReadiness: v})}
   />
 </Section>
 
@@ -1045,27 +1045,27 @@ if (!scenarioCoffee) {
   <Variable
     label="Lived Faith Witness Exposure Hours"
     value={variables.witnessHours}
-    onChange={(v) => setVariables({...variables, witnessHours: v})}
+    onChange={(v) => ...variables, witnessHours: v})}
   />
   <Variable
     label="Theological Conversation Frequency"
     value={variables.conversationFreq}
-    onChange={(v) => setVariables({...variables, conversationFreq: v})}
+    onChange={(v) => ...variables, conversationFreq: v})}
   />
   <Variable
     label="Scripture Reading Progress %"
     value={variables.scriptureProgress}
-    onChange={(v) => setVariables({...variables, scriptureProgress: v})}
+    onChange={(v) => ...variables, scriptureProgress: v})}
   />
   <Variable
     label="Hours Spent Mulling"
     value={variables.hoursSpentMulling}
-    onChange={(v) => setVariables({...variables, hoursSpentMulling: v})}
+    onChange={(v) => ...variables, hoursSpentMulling: v})}
   />
   <Variable
     label="Community Integration & Friend Engagement"
     value={variables.communityProximity}
-    onChange={(v) => setVariables({...variables, communityProximity: v})}
+    onChange={(v) => ...variables, communityProximity: v})}
   />
 </Section>
 
@@ -1074,7 +1074,7 @@ if (!scenarioCoffee) {
     <Toggle
       label="Core Identity Alignment with Faith Path"
       checked={variables.identityAlignment}
-      onChange={(v) => setVariables({...variables, identityAlignment: v})}
+      onChange={(v) => ...variables, identityAlignment: v})}
     />
     <div style={{
       fontSize: '0.75rem',
@@ -1090,7 +1090,7 @@ if (!scenarioCoffee) {
     <Toggle
       label="Celestial Considerations"
       checked={variables.celestialConsiderations}
-      onChange={(v) => setVariables({...variables, celestialConsiderations: v})}
+      onChange={(v) => ...variables, celestialConsiderations: v})}
     />
     <div style={{
       fontSize: '0.75rem',
@@ -1105,12 +1105,12 @@ if (!scenarioCoffee) {
   <Toggle
     label="Additional Church Attendance by Explicit Invitation"
     checked={variables.attendedEvent}
-    onChange={(v) => setVariables({...variables, attendedEvent: v})}
+    onChange={(v) => ...variables, attendedEvent: v})}
   />
   <Toggle
     label="Holy Spirit Prompted Revelation"
     checked={variables.holySpirit}
-    onChange={(v) => setVariables({...variables, holySpirit: v})}
+    onChange={(v) => ...variables, holySpirit: v})}
   />
 </Section>
 
@@ -1118,19 +1118,19 @@ if (!scenarioCoffee) {
   <NumericVariable
     label="Herbal Tea Sessions per Month"
     value={variables.teaSessions}
-    onChange={(v) => setVariables({...variables, teaSessions: v})}
+    onChange={(v) => ...variables, teaSessions: v})}
     max={30}
   />
   <NumericVariable
     label="Spiritual Meme Exchange Rate (per week)"
     value={variables.memeRate}
-    onChange={(v) => setVariables({...variables, memeRate: v})}
+    onChange={(v) => ...variables, memeRate: v})}
     max={20}
   />
   <NumericVariable
     label="Late-Night Scripture Reading"
     value={variables.midnightReading}
-    onChange={(v) => setVariables({...variables, midnightReading: v})}
+    onChange={(v) => ...variables, midnightReading: v})}
     max={15}
   />
 </Section>
@@ -1563,7 +1563,7 @@ if (!scenarioCoffee) {
             { x: 71, y: 83.9 },
             { x: 82, y: 80.1 },
             { x: 91, y: 82.0 },
-            { x: 100, y: 72.4, label: 'Today' }
+            { x: 100, y: 86.6, label: 'Today' }
           ];
 
           const svgHeight = 160;
@@ -1571,7 +1571,7 @@ if (!scenarioCoffee) {
           const chartHeight = svgHeight - padding.top - padding.bottom;
 
           const yMin = 65;
-          const yMax = 85;
+          const yMax = 90;
           
           return (
             <div style={{
