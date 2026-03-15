@@ -582,7 +582,7 @@
             let total = barrierScore + lifeScore + witnessScore + eventBonus + playfulScore;
             
             if (snowStorm) {
-              total = total * 0.75;
+              total = total + 10;
             }
             
             return Math.min(Math.max(total, 0), 100);
@@ -592,7 +592,7 @@
             let timelineAdjustment = 0;
 
             if (snowStorm) {
-              timelineAdjustment += 25;
+              timelineAdjustment -= 10;
             }
 
             if (vars.celestialConsiderations) timelineAdjustment -= 10;
@@ -1219,7 +1219,7 @@
                   textAlign: 'center',
                   flex: '0 1 auto'
                 }}>
-                  ❄️ Is There a Massive Snow Storm on the Horizon? ❄️
+                  🔥💥 Has WWIII Begun and/or The Onset of The Apocalypse? 💥🔥
                 </label>
                 <button
                   onClick={() => onChange(!checked)}
@@ -1227,13 +1227,13 @@
                     width: '60px',
                     height: '32px',
                     borderRadius: '16px',
-                    background: checked ? '#7FB3D5' : '#E8E8E8',
-                    border: checked ? '3px solid #5DADE2' : '3px solid #BEBEBE',
+                    background: checked ? '#E74C3C' : '#E8E8E8',
+                    border: checked ? '3px solid #C0392B' : '3px solid #BEBEBE',
                     position: 'relative',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     flexShrink: 0,
-                    boxShadow: checked ? '0 3px 12px rgba(93, 173, 226, 0.4)' : '0 2px 6px rgba(0,0,0,0.1)'
+                    boxShadow: checked ? '0 3px 12px rgba(231, 76, 60, 0.5)' : '0 2px 6px rgba(0,0,0,0.1)'
                   }}
                 >
                   <div style={{
@@ -1251,7 +1251,7 @@
                     justifyContent: 'center',
                     fontSize: '12px'
                   }}>
-                    {checked ? '❄️' : ''}
+                    {checked ? '🔥' : ''}
                   </div>
                 </button>
               </div>
@@ -1262,7 +1262,7 @@
                 textAlign: 'center',
                 marginTop: '-0.25rem'
               }}>
-                Default to No, Yes is a Setback for This Delicate Flower
+                Default to No, Yes Accelerates All Timelines
               </p>
             </div>
           );
