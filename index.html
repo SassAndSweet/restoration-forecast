@@ -55,7 +55,7 @@
             transform: scale(1.2);
             box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         }
-                input[type="range"]::-moz-range-thumb {
+        input[type="range"]::-moz-range-thumb {
             width: 18px;
             height: 18px;
             background: white;
@@ -167,73 +167,73 @@
             transition: transform 0.2s ease, filter 0.2s ease;
         }
         
-.spoon:hover {
-    transform: scale(1.5);
-    filter: brightness(1.2);
-}
+        .spoon:hover {
+            transform: scale(1.5);
+            filter: brightness(1.2);
+        }
 
-.spoon.popping {
-    animation: spoonPop 0.4s ease forwards;
-}
+        .spoon.popping {
+            animation: spoonPop 0.4s ease forwards;
+        }
 
-.spoon.landing {
-    animation: spoonLand 0.5s ease-out forwards;
-}
+        .spoon.landing {
+            animation: spoonLand 0.5s ease-out forwards;
+        }
 
-@keyframes spoonPop {
-    0% {
-        transform: scale(1);
-        opacity: 0.75;
-    }
-    30% {
-        transform: scale(2.5);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0);
-        opacity: 0;
-    }
-}
+        @keyframes spoonPop {
+            0% {
+                transform: scale(1);
+                opacity: 0.75;
+            }
+            30% {
+                transform: scale(2.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
 
-@keyframes spoonLand {
-    0% {
-        opacity: 0.75;
-    }
-    100% {
-        opacity: 0;
-    }
-}
+        @keyframes spoonLand {
+            0% {
+                opacity: 0.75;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
 
-/* Spoon Basket - Now using image */
-#spoon-basket {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 280px;
-    height: 140px;
-    z-index: 998;
-    pointer-events: none;
-}
+        /* Spoon Basket - Now using image */
+        #spoon-basket {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 280px;
+            height: 140px;
+            z-index: 998;
+            pointer-events: none;
+        }
 
-#spoon-basket-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
-}
+        #spoon-basket-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+        }
 
-#spoon-basket-fill {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 10%;
-    background: linear-gradient(180deg, rgba(201, 160, 110, 0.3), rgba(201, 160, 110, 0.7));
-    transition: height 0.6s ease;
-    border-radius: 50% 50% 0 0;
-    z-index: 997;
-}
+        #spoon-basket-fill {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 10%;
+            background: linear-gradient(180deg, rgba(201, 160, 110, 0.3), rgba(201, 160, 110, 0.7));
+            transition: height 0.6s ease;
+            border-radius: 50% 50% 0 0;
+            z-index: 997;
+        }
         
         /* Confetti Animation */
         .confetti {
@@ -288,10 +288,10 @@
 <body>
     <div id="root"></div>
     <div id="spoonfall-container"></div>
-<div id="spoon-basket">
-    <img id="spoon-basket-image" src="Wicker_Basket.png" alt="Belief Basket">
-    <div id="spoon-basket-fill"></div>
-</div>
+    <div id="spoon-basket">
+        <img id="spoon-basket-image" src="Wicker_Basket.png" alt="Belief Basket">
+        <div id="spoon-basket-fill"></div>
+    </div>
     <!-- Analytics Icon -->
     <a href="https://analytics.google.com" target="_blank" class="analytics-icon" title="View Analytics">☕️</a>
     
@@ -302,11 +302,10 @@
         // Spoon animation control
         let spoonEnabled = false; // Default OFF
         let spoons = [];
-        let hasShownConfetti = false; // Track if we've shown confetti at 100%
+        let hasShownConfetti = false;
         let basketFillLevel = 0;
         const maxBasketFill = 18;
         
-        // Synthetic pop sound using Web Audio API
         function playPopSound() {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
@@ -315,7 +314,6 @@
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
             
-            // Pop sound characteristics
             oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.05);
             
@@ -326,25 +324,23 @@
             oscillator.stop(audioContext.currentTime + 0.1);
         }
 
-        // Clink sound for spoons landing in basket
-function playClinkSound() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Clink sound - higher pitch, shorter duration
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.03);
-    
-    gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.08);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.08);
-}
+        function playClinkSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.03);
+            
+            gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.08);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.08);
+        }
 
         function createConfettiBurst() {
             const colors = ['#C9A06E', '#D4AF6A', '#8B7355', '#A0826D', '#CD853F', '#FFD700', '#FFA500', '#FF6B6B', '#4ECDC4'];
@@ -362,7 +358,6 @@ function playClinkSound() {
                 confetti.style.width = size + 'px';
                 confetti.style.height = size + 'px';
                 
-                // Random shapes
                 if (shapes[Math.floor(Math.random() * shapes.length)] === 'circle') {
                     confetti.style.borderRadius = '50%';
                 }
@@ -414,15 +409,12 @@ function playClinkSound() {
             spoon.dataset.lands = landsInBasket ? 'basket' : 'miss';
             spoon.style.animationName = landsInBasket ? 'spoonFallToBasket' : 'spoonFall';
 
-            // Add click handler for satisfying pop effect
             spoon.addEventListener('click', function(event) {
                 this.classList.add('popping');
-                // Play pop sound
                 playPopSound();
                 createPopRing(event.clientX, event.clientY);
                 setTimeout(() => {
                     this.remove();
-                    // Replace with a new spoon after a delay
                     if (spoonEnabled) {
                         setTimeout(() => {
                             const container = document.getElementById('spoonfall-container');
@@ -435,38 +427,35 @@ function playClinkSound() {
                 }, 400);
             });
 
-// Animation end handler
-spoon.addEventListener('animationend', function() {
-    if (this.classList.contains('popping') || this.classList.contains('landing')) {
-        return;
-    }
-    if (this.dataset.lands === 'basket') {
-        // Spoon landed in basket - fade out with clink sound
-        this.classList.add('landing');
-        playClinkSound();
-        addSpoonToBasket();
-        setTimeout(() => {
-            this.remove();
-            if (spoonEnabled) {
-                const container = document.getElementById('spoonfall-container');
-                if (container && spoonEnabled) {
-                    const newSpoon = createSpoon();
-                    container.appendChild(newSpoon);
+            spoon.addEventListener('animationend', function() {
+                if (this.classList.contains('popping') || this.classList.contains('landing')) {
+                    return;
                 }
-            }
-        }, 500);
-    } else {
-        // Spoon missed - just disappear
-        this.remove();
-        if (spoonEnabled) {
-            const container = document.getElementById('spoonfall-container');
-            if (container && spoonEnabled) {
-                const newSpoon = createSpoon();
-                container.appendChild(newSpoon);
-            }
-        }
-    }
-});
+                if (this.dataset.lands === 'basket') {
+                    this.classList.add('landing');
+                    playClinkSound();
+                    addSpoonToBasket();
+                    setTimeout(() => {
+                        this.remove();
+                        if (spoonEnabled) {
+                            const container = document.getElementById('spoonfall-container');
+                            if (container && spoonEnabled) {
+                                const newSpoon = createSpoon();
+                                container.appendChild(newSpoon);
+                            }
+                        }
+                    }, 500);
+                } else {
+                    this.remove();
+                    if (spoonEnabled) {
+                        const container = document.getElementById('spoonfall-container');
+                        if (container && spoonEnabled) {
+                            const newSpoon = createSpoon();
+                            container.appendChild(newSpoon);
+                        }
+                    }
+                }
+            });
             
             return spoon;
         }
@@ -479,7 +468,6 @@ spoon.addEventListener('animationend', function() {
             updateBasketFill();
             
             if (spoonEnabled) {
-                // Create 30 spoons
                 for (let i = 0; i < 30; i++) {
                     const spoon = createSpoon();
                     container.appendChild(spoon);
@@ -501,10 +489,8 @@ spoon.addEventListener('animationend', function() {
             }
         }
         
-        // Initialize spoons on page load
         window.addEventListener('load', () => {
             initSpoons();
-            // Expose confetti function to window for React to use
             window.createConfettiBurst = createConfettiBurst;
             window.hasShownConfetti = false;
         });
@@ -513,29 +499,28 @@ spoon.addEventListener('animationend', function() {
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // BASELINE DATE
         const BASELINE_DATE = new Date('2026-09-27T12:00:00-04:00');
 
         function ConversionForecast() {
           const [variables, setVariables] = useState({
-  graceWorksGap: 10,
-  josephSmithAcceptance: 56,
-  bookOfMormonRevelation: 70,
-  doctrinesCovenantsRevelation: 10,
-  pearlGreatPriceRevelation: 3,
-  angelicTierVsEntity: 85,
-  ordinanceSalvation: 20,
-  coffeeDependency: 75,
-  familyConcernAlleviated: 15,
-  lifeStability: 50,
-  catalystNeedsChrist: 50,
-  celestialConsiderations: false,
-  communityProximity: 45.5,
-  journeyReadiness: 30,
-  witnessHours: 50,
-  conversationFreq: 25,
-  scriptureProgress: 36,
-  hoursSpentMulling: 57,
+            graceWorksGap: 10,
+            josephSmithAcceptance: 56,
+            bookOfMormonRevelation: 70,
+            doctrinesCovenantsRevelation: 10,
+            pearlGreatPriceRevelation: 3,
+            angelicTierVsEntity: 85,
+            ordinanceSalvation: 20,
+            coffeeDependency: 75,
+            familyConcernAlleviated: 15,
+            lifeStability: 50,
+            catalystNeedsChrist: 50,
+            celestialConsiderations: false,
+            communityProximity: 45.5,
+            journeyReadiness: 30,
+            witnessHours: 50,
+            conversationFreq: 25,
+            scriptureProgress: 36,
+            hoursSpentMulling: 57,
             attendedEvent: true,
             holySpirit: false,
             identityAlignment: false,
@@ -556,30 +541,30 @@ spoon.addEventListener('animationend', function() {
 
           const calculateProbability = (vars) => {
             const barrierScore = (
-  (100 - vars.graceWorksGap) * 0.12 +
-  vars.josephSmithAcceptance * 0.15 +
-  vars.bookOfMormonRevelation * 0.04 +
-  vars.doctrinesCovenantsRevelation * 0.04 +
-  vars.pearlGreatPriceRevelation * 0.02 +
-  (100 - vars.angelicTierVsEntity) * 0.15 +
-  vars.ordinanceSalvation * 0.10
-);
+              (100 - vars.graceWorksGap) * 0.12 +
+              vars.josephSmithAcceptance * 0.15 +
+              vars.bookOfMormonRevelation * 0.04 +
+              vars.doctrinesCovenantsRevelation * 0.04 +
+              vars.pearlGreatPriceRevelation * 0.02 +
+              (100 - vars.angelicTierVsEntity) * 0.15 +
+              vars.ordinanceSalvation * 0.10
+            );
             
             const lifeScore = (
-  (100 - vars.coffeeDependency) * 0.15 +
-  vars.familyConcernAlleviated * 0.12 +
-  vars.lifeStability * 0.07 +
-  vars.catalystNeedsChrist * 0.07 +
-  vars.journeyReadiness * 0.07
-);
+              (100 - vars.coffeeDependency) * 0.15 +
+              vars.familyConcernAlleviated * 0.12 +
+              vars.lifeStability * 0.07 +
+              vars.catalystNeedsChrist * 0.07 +
+              vars.journeyReadiness * 0.07
+            );
             
             const witnessScore = (
-  vars.witnessHours * 0.15 +
-  vars.conversationFreq * 0.14 +
-  vars.scriptureProgress * 0.10 +
-  vars.hoursSpentMulling * 0.12 +
-  vars.communityProximity * 0.08
-);
+              vars.witnessHours * 0.15 +
+              vars.conversationFreq * 0.14 +
+              vars.scriptureProgress * 0.10 +
+              vars.hoursSpentMulling * 0.12 +
+              vars.communityProximity * 0.08
+            );
             
             const eventBonus = (
               (vars.attendedEvent ? 15 : 0) +
@@ -620,34 +605,34 @@ spoon.addEventListener('animationend', function() {
             if (scenarioCoffee) timelineAdjustment -= 15;
 
             const defaults = {
-  graceWorksGap: 10,
-  josephSmithAcceptance: 56,
-  bookOfMormonRevelation: 70,
-  doctrinesCovenantsRevelation: 10,
-  pearlGreatPriceRevelation: 3,
-  angelicTierVsEntity: 85,
-  ordinanceSalvation: 20,
-  coffeeDependency: 75,
-  familyConcernAlleviated: 15,
-  lifeStability: 50,
-  catalystNeedsChrist: 50,
-  communityProximity: 45.5,
-  journeyReadiness: 30,
-  witnessHours: 50,
-  conversationFreq: 25,
-  scriptureProgress: 36,
-  hoursSpentMulling: 57,
+              graceWorksGap: 10,
+              josephSmithAcceptance: 56,
+              bookOfMormonRevelation: 70,
+              doctrinesCovenantsRevelation: 10,
+              pearlGreatPriceRevelation: 3,
+              angelicTierVsEntity: 85,
+              ordinanceSalvation: 20,
+              coffeeDependency: 75,
+              familyConcernAlleviated: 15,
+              lifeStability: 50,
+              catalystNeedsChrist: 50,
+              communityProximity: 45.5,
+              journeyReadiness: 30,
+              witnessHours: 50,
+              conversationFreq: 25,
+              scriptureProgress: 36,
+              hoursSpentMulling: 57,
               teaSessions: 8,
               memeRate: 20,
               midnightReading: 10
             };
 
             timelineAdjustment -= (vars.josephSmithAcceptance - defaults.josephSmithAcceptance) * 1;
-timelineAdjustment -= (vars.bookOfMormonRevelation - defaults.bookOfMormonRevelation) * 1;
-timelineAdjustment -= (vars.doctrinesCovenantsRevelation - defaults.doctrinesCovenantsRevelation) * 1;
-timelineAdjustment -= (vars.pearlGreatPriceRevelation - defaults.pearlGreatPriceRevelation) * 1;
-timelineAdjustment += (vars.angelicTierVsEntity - defaults.angelicTierVsEntity) * 1;
-timelineAdjustment -= (vars.ordinanceSalvation - defaults.ordinanceSalvation) * 1;
+            timelineAdjustment -= (vars.bookOfMormonRevelation - defaults.bookOfMormonRevelation) * 1;
+            timelineAdjustment -= (vars.doctrinesCovenantsRevelation - defaults.doctrinesCovenantsRevelation) * 1;
+            timelineAdjustment -= (vars.pearlGreatPriceRevelation - defaults.pearlGreatPriceRevelation) * 1;
+            timelineAdjustment += (vars.angelicTierVsEntity - defaults.angelicTierVsEntity) * 1;
+            timelineAdjustment -= (vars.ordinanceSalvation - defaults.ordinanceSalvation) * 1;
             
             if (!scenarioFamily) {
               timelineAdjustment -= (vars.familyConcernAlleviated - defaults.familyConcernAlleviated) * 1;
@@ -664,11 +649,11 @@ timelineAdjustment -= (vars.ordinanceSalvation - defaults.ordinanceSalvation) * 
             timelineAdjustment -= (vars.memeRate - defaults.memeRate) * 1;
             timelineAdjustment -= (vars.midnightReading - defaults.midnightReading) * 1;
 
-           timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
+            timelineAdjustment += (vars.graceWorksGap - defaults.graceWorksGap) * 1;
 
-if (!scenarioCoffee) {
-  timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
-}
+            if (!scenarioCoffee) {
+              timelineAdjustment += (vars.coffeeDependency - defaults.coffeeDependency) * 1;
+            }
 
             const now = new Date();
             const millisecondsToBaseline = BASELINE_DATE - now;
@@ -685,7 +670,6 @@ if (!scenarioCoffee) {
             const newDate = calculateProjectedDate(variables);
             setProjectedDate(newDate);
             
-            // Trigger confetti burst when probability hits 100%
             if (newProb >= 100 && !window.hasShownConfetti) {
               window.hasShownConfetti = true;
               if (typeof window.createConfettiBurst === 'function') {
@@ -730,24 +714,24 @@ if (!scenarioCoffee) {
           const getFactorBreakdown = () => {
             const total = probability || 1;
             const factors = [
-  { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
-  { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
-  { name: "Hours Spent Mulling", value: (variables.hoursSpentMulling * 0.12 / total * 100), color: "#8B7355" },
-  { name: "Family Concerns Alleviated", value: (variables.familyConcernAlleviated * 0.12 / total * 100), color: "#A0522D" },
-  { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
-  { name: "Book of Mormon as Divine Revelation", value: (variables.bookOfMormonRevelation * 0.04 / total * 100), color: "#6D4C41" },
-  { name: "Doctrine & Covenants as Divine Revelation", value: (variables.doctrinesCovenantsRevelation * 0.04 / total * 100), color: "#8B4513" },
-  { name: "Pearl of Great Price as Divine Revelation", value: (variables.pearlGreatPriceRevelation * 0.02 / total * 100), color: "#A0826D" },
-  { name: "Ordinance-Based Salvation Acceptance", value: (variables.ordinanceSalvation * 0.10 / total * 100), color: "#8B4513" },
-  { name: "Community Integration & Friend Engagement", value: (variables.communityProximity * 0.08 / total * 100), color: "#A0826D" },
-  { name: "Life Stability & Rootedness", value: (variables.lifeStability * 0.07 / total * 100), color: "#A0522D" },
-  { name: "Catalyst Needs Christ's Anchoring", value: (variables.catalystNeedsChrist * 0.07 / total * 100), color: "#A0522D" },
-  { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 15 : 0) + (variables.holySpirit ? 10 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
-  { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
-  { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
-  { name: "Angelic Tier vs Entity Barrier", value: -(variables.angelicTierVsEntity * 0.15 / total * 100), color: "#8B4513" },
-  { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
-];
+              { name: "Witness of Lived Faith", value: (variables.witnessHours * 0.15 / total * 100), color: "#8B7355" },
+              { name: "Theological Conversations", value: (variables.conversationFreq * 0.14 / total * 100), color: "#A0826D" },
+              { name: "Hours Spent Mulling", value: (variables.hoursSpentMulling * 0.12 / total * 100), color: "#8B7355" },
+              { name: "Family Concerns Alleviated", value: (variables.familyConcernAlleviated * 0.12 / total * 100), color: "#A0522D" },
+              { name: "Joseph Smith Acceptance", value: (variables.josephSmithAcceptance * 0.15 / total * 100), color: "#6D4C41" },
+              { name: "Book of Mormon as Divine Revelation", value: (variables.bookOfMormonRevelation * 0.04 / total * 100), color: "#6D4C41" },
+              { name: "Doctrine & Covenants as Divine Revelation", value: (variables.doctrinesCovenantsRevelation * 0.04 / total * 100), color: "#8B4513" },
+              { name: "Pearl of Great Price as Divine Revelation", value: (variables.pearlGreatPriceRevelation * 0.02 / total * 100), color: "#A0826D" },
+              { name: "Ordinance-Based Salvation Acceptance", value: (variables.ordinanceSalvation * 0.10 / total * 100), color: "#8B4513" },
+              { name: "Community Integration & Friend Engagement", value: (variables.communityProximity * 0.08 / total * 100), color: "#A0826D" },
+              { name: "Life Stability & Rootedness", value: (variables.lifeStability * 0.07 / total * 100), color: "#A0522D" },
+              { name: "Catalyst Needs Christ's Anchoring", value: (variables.catalystNeedsChrist * 0.07 / total * 100), color: "#A0522D" },
+              { name: "Key Spiritual Events", value: ((variables.attendedEvent ? 15 : 0) + (variables.holySpirit ? 10 : 0) + (variables.identityAlignment ? 10 : 0) + (variables.celestialConsiderations ? 10 : 0)) / total * 100, color: "#C9A06E" },
+              { name: "Scripture Reading Progress", value: (variables.scriptureProgress * 0.10 / total * 100), color: "#D4AF6A" },
+              { name: "Coffee Barrier", value: -(variables.coffeeDependency * 0.15 / total * 100), color: "#8B4513" },
+              { name: "Angelic Tier vs Entity Barrier", value: -(variables.angelicTierVsEntity * 0.15 / total * 100), color: "#8B4513" },
+              { name: "Grace/Works Question", value: -(variables.graceWorksGap * 0.12 / total * 100), color: "#CD853F" }
+            ];
             return factors.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
           };
 
@@ -775,24 +759,24 @@ if (!scenarioCoffee) {
             setscenarioGrace(true);
             setSnowStorm(false);
             setVariables({
-  graceWorksGap: 10,
-  josephSmithAcceptance: 56,
-  bookOfMormonRevelation: 70,
-  doctrinesCovenantsRevelation: 10,
-  pearlGreatPriceRevelation: 3,
-  angelicTierVsEntity: 85,
-  ordinanceSalvation: 20,
-  coffeeDependency: 75,
-  familyConcernAlleviated: 15,
-  lifeStability: 50,
-  catalystNeedsChrist: 50,
-  celestialConsiderations: false,
-  communityProximity: 45.5,
-  journeyReadiness: 30,
-  witnessHours: 50,
-  conversationFreq: 25,
-  scriptureProgress: 36,
-  hoursSpentMulling: 57,
+              graceWorksGap: 10,
+              josephSmithAcceptance: 56,
+              bookOfMormonRevelation: 70,
+              doctrinesCovenantsRevelation: 10,
+              pearlGreatPriceRevelation: 3,
+              angelicTierVsEntity: 85,
+              ordinanceSalvation: 20,
+              coffeeDependency: 75,
+              familyConcernAlleviated: 15,
+              lifeStability: 50,
+              catalystNeedsChrist: 50,
+              celestialConsiderations: false,
+              communityProximity: 45.5,
+              journeyReadiness: 30,
+              witnessHours: 50,
+              conversationFreq: 25,
+              scriptureProgress: 36,
+              hoursSpentMulling: 57,
               attendedEvent: true,
               holySpirit: false,
               identityAlignment: false,
@@ -808,7 +792,7 @@ if (!scenarioCoffee) {
               minHeight: '100vh',
               background: 'linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 100%)',
               fontFamily: "'Crimson Pro', serif",
-             padding: '2rem 1rem 180px 1rem'
+              padding: '2rem 1rem 180px 1rem'
             }}>
               <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                 <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -973,167 +957,167 @@ if (!scenarioCoffee) {
                   marginBottom: '2rem'
                 }}>
                   <Section title="Theological Barriers" color="#8B4513">
-  <Variable
-    label="Grace vs. Works Gap"
-    value={variables.graceWorksGap}
-    onChange={(v) => setVariables({...variables, graceWorksGap: v})}
-    negative
-  />
-  <Variable
-    label={<span>Acceptance of Joseph Smith as Prophet<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='joseph-smith-context.html'}>²</sup></span>}
-    value={variables.josephSmithAcceptance}
-    onChange={(v) => ...variables, josephSmithAcceptance: v})}
-  />
-  <Variable
-    label={<span>Book of Mormon as Divine Revelation<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='colophon-context.html'}>¹</sup></span>}
-    value={variables.bookOfMormonRevelation}
-    onChange={(v) => ...variables, bookOfMormonRevelation: v})}
-  />
-  <Variable
-    label="Doctrine & Covenants as Divine Revelation"
-    value={variables.doctrinesCovenantsRevelation}
-    onChange={(v) => ...variables, doctrinesCovenantsRevelation: v})}
-  />
-  <Variable
-    label="Pearl of Great Price as Divine Revelation"
-    value={variables.pearlGreatPriceRevelation}
-    onChange={(v) => ...variables, pearlGreatPriceRevelation: v})}
-  />
-  <Variable
-    label="Angelic Tier vs Entity"
-    value={variables.angelicTierVsEntity}
-    onChange={(v) => ...variables, angelicTierVsEntity: v})}
-    negative
-  />
-  <Variable
-    label="Acceptance of Ordinance-Based Salvation"
-    value={variables.ordinanceSalvation}
-    onChange={(v) => ...variables, ordinanceSalvation: v})}
-  />
-</Section>
+                    <Variable
+                      label="Grace vs. Works Gap"
+                      value={variables.graceWorksGap}
+                      onChange={(v) => setVariables({...variables, graceWorksGap: v})}
+                      negative
+                    />
+                    <Variable
+                      label={<span>Acceptance of Joseph Smith as Prophet<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='joseph-smith-context.html'}>²</sup></span>}
+                      value={variables.josephSmithAcceptance}
+                      onChange={(v) => setVariables({...variables, josephSmithAcceptance: v})}
+                    />
+                    <Variable
+                      label={<span>Book of Mormon as Divine Revelation<sup style={{fontSize: '1.5em', color: '#D32F2F', cursor: 'pointer', marginLeft: '4px', fontWeight: '700'}} onClick={() => window.location.href='colophon-context.html'}>¹</sup></span>}
+                      value={variables.bookOfMormonRevelation}
+                      onChange={(v) => setVariables({...variables, bookOfMormonRevelation: v})}
+                    />
+                    <Variable
+                      label="Doctrine & Covenants as Divine Revelation"
+                      value={variables.doctrinesCovenantsRevelation}
+                      onChange={(v) => setVariables({...variables, doctrinesCovenantsRevelation: v})}
+                    />
+                    <Variable
+                      label="Pearl of Great Price as Divine Revelation"
+                      value={variables.pearlGreatPriceRevelation}
+                      onChange={(v) => setVariables({...variables, pearlGreatPriceRevelation: v})}
+                    />
+                    <Variable
+                      label="Angelic Tier vs Entity"
+                      value={variables.angelicTierVsEntity}
+                      onChange={(v) => setVariables({...variables, angelicTierVsEntity: v})}
+                      negative
+                    />
+                    <Variable
+                      label="Acceptance of Ordinance-Based Salvation"
+                      value={variables.ordinanceSalvation}
+                      onChange={(v) => setVariables({...variables, ordinanceSalvation: v})}
+                    />
+                  </Section>
 
-<Section title="Life Factors" color="#A0522D">
-  <Variable
-    label="Coffee Dependency Index"
-    value={variables.coffeeDependency}
-    onChange={(v) => ...variables, coffeeDependency: v})}
-    negative
-  />
-  <Variable
-    label="Family Reaction Concerns Alleviated"
-    value={variables.familyConcernAlleviated}
-    onChange={(v) => ...variables, familyConcernAlleviated: v})}
-  />
-  <Variable
-    label="Life Stability & Rootedness"
-    value={variables.lifeStability}
-    onChange={(v) => ...variables, lifeStability: v})}
-  />
-  <Variable
-    label="Catalyst Needs Christ's Anchoring"
-    value={variables.catalystNeedsChrist}
-    onChange={(v) => ...variables, catalystNeedsChrist: v})}
-  />
-  <Variable
-    label="Independent Journey & Timing Readiness"
-    value={variables.journeyReadiness}
-    onChange={(v) => ...variables, journeyReadiness: v})}
-  />
-</Section>
+                  <Section title="Life Factors" color="#A0522D">
+                    <Variable
+                      label="Coffee Dependency Index"
+                      value={variables.coffeeDependency}
+                      onChange={(v) => setVariables({...variables, coffeeDependency: v})}
+                      negative
+                    />
+                    <Variable
+                      label="Family Reaction Concerns Alleviated"
+                      value={variables.familyConcernAlleviated}
+                      onChange={(v) => setVariables({...variables, familyConcernAlleviated: v})}
+                    />
+                    <Variable
+                      label="Life Stability & Rootedness"
+                      value={variables.lifeStability}
+                      onChange={(v) => setVariables({...variables, lifeStability: v})}
+                    />
+                    <Variable
+                      label="Catalyst Needs Christ's Anchoring"
+                      value={variables.catalystNeedsChrist}
+                      onChange={(v) => setVariables({...variables, catalystNeedsChrist: v})}
+                    />
+                    <Variable
+                      label="Independent Journey & Timing Readiness"
+                      value={variables.journeyReadiness}
+                      onChange={(v) => setVariables({...variables, journeyReadiness: v})}
+                    />
+                  </Section>
 
-<Section title="Witness & Engagement" color="#8B7355">
-  <Variable
-    label="Lived Faith Witness Exposure Hours"
-    value={variables.witnessHours}
-    onChange={(v) => ...variables, witnessHours: v})}
-  />
-  <Variable
-    label="Theological Conversation Frequency"
-    value={variables.conversationFreq}
-    onChange={(v) => ...variables, conversationFreq: v})}
-  />
-  <Variable
-    label="Scripture Reading Progress %"
-    value={variables.scriptureProgress}
-    onChange={(v) => ...variables, scriptureProgress: v})}
-  />
-  <Variable
-    label="Hours Spent Mulling"
-    value={variables.hoursSpentMulling}
-    onChange={(v) => ...variables, hoursSpentMulling: v})}
-  />
-  <Variable
-    label="Community Integration & Friend Engagement"
-    value={variables.communityProximity}
-    onChange={(v) => ...variables, communityProximity: v})}
-  />
-</Section>
+                  <Section title="Witness & Engagement" color="#8B7355">
+                    <Variable
+                      label="Lived Faith Witness Exposure Hours"
+                      value={variables.witnessHours}
+                      onChange={(v) => setVariables({...variables, witnessHours: v})}
+                    />
+                    <Variable
+                      label="Theological Conversation Frequency"
+                      value={variables.conversationFreq}
+                      onChange={(v) => setVariables({...variables, conversationFreq: v})}
+                    />
+                    <Variable
+                      label="Scripture Reading Progress %"
+                      value={variables.scriptureProgress}
+                      onChange={(v) => setVariables({...variables, scriptureProgress: v})}
+                    />
+                    <Variable
+                      label="Hours Spent Mulling"
+                      value={variables.hoursSpentMulling}
+                      onChange={(v) => setVariables({...variables, hoursSpentMulling: v})}
+                    />
+                    <Variable
+                      label="Community Integration & Friend Engagement"
+                      value={variables.communityProximity}
+                      onChange={(v) => setVariables({...variables, communityProximity: v})}
+                    />
+                  </Section>
 
-<Section title="Key Events" color="#C9A06E">
-  <div>
-    <Toggle
-      label="Core Identity Alignment with Faith Path"
-      checked={variables.identityAlignment}
-      onChange={(v) => ...variables, identityAlignment: v})}
-    />
-    <div style={{
-      fontSize: '0.75rem',
-      color: '#8D6E63',
-      fontStyle: 'italic',
-      marginTop: '0.25rem',
-      marginLeft: '0.5rem'
-    }}>
-      (PacNW, FSO, Coffee Identity Resolution)
-    </div>
-  </div>
-  <div>
-    <Toggle
-      label="Celestial Considerations"
-      checked={variables.celestialConsiderations}
-      onChange={(v) => ...variables, celestialConsiderations: v})}
-    />
-    <div style={{
-      fontSize: '0.75rem',
-      color: '#8D6E63',
-      fontStyle: 'italic',
-      marginTop: '0.25rem',
-      marginLeft: '0.5rem'
-    }}>
-      (eternal family bonds)
-    </div>
-  </div>
-  <Toggle
-    label="Additional Church Attendance by Explicit Invitation"
-    checked={variables.attendedEvent}
-    onChange={(v) => ...variables, attendedEvent: v})}
-  />
-  <Toggle
-    label="Holy Spirit Prompted Revelation"
-    checked={variables.holySpirit}
-    onChange={(v) => ...variables, holySpirit: v})}
-  />
-</Section>
+                  <Section title="Key Events" color="#C9A06E">
+                    <div>
+                      <Toggle
+                        label="Core Identity Alignment with Faith Path"
+                        checked={variables.identityAlignment}
+                        onChange={(v) => setVariables({...variables, identityAlignment: v})}
+                      />
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#8D6E63',
+                        fontStyle: 'italic',
+                        marginTop: '0.25rem',
+                        marginLeft: '0.5rem'
+                      }}>
+                        (PacNW, FSO, Coffee Identity Resolution)
+                      </div>
+                    </div>
+                    <div>
+                      <Toggle
+                        label="Celestial Considerations"
+                        checked={variables.celestialConsiderations}
+                        onChange={(v) => setVariables({...variables, celestialConsiderations: v})}
+                      />
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#8D6E63',
+                        fontStyle: 'italic',
+                        marginTop: '0.25rem',
+                        marginLeft: '0.5rem'
+                      }}>
+                        (eternal family bonds)
+                      </div>
+                    </div>
+                    <Toggle
+                      label="Additional Church Attendance by Explicit Invitation"
+                      checked={variables.attendedEvent}
+                      onChange={(v) => setVariables({...variables, attendedEvent: v})}
+                    />
+                    <Toggle
+                      label="Holy Spirit Prompted Revelation"
+                      checked={variables.holySpirit}
+                      onChange={(v) => setVariables({...variables, holySpirit: v})}
+                    />
+                  </Section>
 
-<Section title="Playful Metrics" color="#D4AF6A">
-  <NumericVariable
-    label="Herbal Tea Sessions per Month"
-    value={variables.teaSessions}
-    onChange={(v) => ...variables, teaSessions: v})}
-    max={30}
-  />
-  <NumericVariable
-    label="Spiritual Meme Exchange Rate (per week)"
-    value={variables.memeRate}
-    onChange={(v) => ...variables, memeRate: v})}
-    max={20}
-  />
-  <NumericVariable
-    label="Late-Night Scripture Reading"
-    value={variables.midnightReading}
-    onChange={(v) => ...variables, midnightReading: v})}
-    max={15}
-  />
-</Section>
+                  <Section title="Playful Metrics" color="#D4AF6A">
+                    <NumericVariable
+                      label="Herbal Tea Sessions per Month"
+                      value={variables.teaSessions}
+                      onChange={(v) => setVariables({...variables, teaSessions: v})}
+                      max={30}
+                    />
+                    <NumericVariable
+                      label="Spiritual Meme Exchange Rate (per week)"
+                      value={variables.memeRate}
+                      onChange={(v) => setVariables({...variables, memeRate: v})}
+                      max={20}
+                    />
+                    <NumericVariable
+                      label="Late-Night Scripture Reading"
+                      value={variables.midnightReading}
+                      onChange={(v) => setVariables({...variables, midnightReading: v})}
+                      max={15}
+                    />
+                  </Section>
                 </div>
 
                 <ProbabilityTrajectory />
@@ -1614,7 +1598,7 @@ if (!scenarioCoffee) {
 
                   return (
                     <>
-                      {[70, 75, 80].map(yValue => {
+                      {[70, 75, 80, 85].map(yValue => {
                         const y = padding.top + chartHeight - ((yValue - yMin) / (yMax - yMin)) * chartHeight;
                         return (
                           <g key={yValue}>
